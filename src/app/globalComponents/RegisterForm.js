@@ -6,6 +6,7 @@ export default function RegisterForm() {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
     role: '',
   });
 
@@ -29,6 +30,13 @@ export default function RegisterForm() {
       return;
     }
 
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage('Passwords do not match.');
+      setSuccessMessage('');
+      return;
+    }
+
     // Password validation
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
     if (!passwordRegex.test(formData.password)) {
@@ -37,9 +45,33 @@ export default function RegisterForm() {
       return;
     }
 
-    // Simulated form submission
-    console.log(formData);
+    // ======== BACKEND SUBMISSION PLACEHOLDER ========
+    /*
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setSuccessMessage('Registration successful!');
+          setErrorMessage('');
+        } else {
+          setErrorMessage(data.message || 'Something went wrong.');
+          setSuccessMessage('');
+        }
+      })
+      .catch(err => {
+        setErrorMessage('Failed to register. Please try again.');
+        setSuccessMessage('');
+      });
+    */
+    // ===============================================
 
+    console.log(formData);
     setErrorMessage('');
     setSuccessMessage('Registration submitted!');
   };
@@ -89,6 +121,19 @@ export default function RegisterForm() {
           <p className="text-sm text-gray-600 mt-1">
             Password must be at least 8 characters and include a number, a capital letter, and a symbol.
           </p>
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <label className="block mb-1 font-medium">Retype Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            required
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded"
+          />
         </div>
 
         {/* Role */}
