@@ -1,6 +1,8 @@
 import React from 'react';
 import RestaurantCard from './globalComponents/RestaurantCard';
 
+
+
 export default function Home() {
   // Sample data for 6 restaurants
   const sampleRestaurants = [
