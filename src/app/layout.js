@@ -23,14 +23,15 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="h-screen bg-gray-100">
-          <div className="bg-gray-100">
-            <Navbar />
-          </div>
-          {children}
-          <Footer />
+        <body>
+        <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
+        <Navbar />
+      {children}
+      <Footer />
+      </div>
         </body>
-      </html>
+    </html>
     </ClerkProvider>
   );
 }

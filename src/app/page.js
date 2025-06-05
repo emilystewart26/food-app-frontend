@@ -1,62 +1,55 @@
-import React from 'react';
-import RestaurantCard from './globalComponents/RestaurantCard';
-
-
+import React from "react";
 
 export default function Home() {
-  // Sample data for 6 restaurants
-  const sampleRestaurants = [
-    {
-      name: 'La Petite Cuisine',
-      photoUrl: 'https://images.unsplash.com/photo-1484980972926-edee96e0960d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      isOpen: true,
-      distance: 1.2,
-    },
-    {
-      name: 'Sakura Sushi',
-      photoUrl: 'https://images.unsplash.com/photo-1642479513653-1b5a1664df8d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      isOpen: false,
-      distance: 3.5,
-    },
-    {
-      name: 'The Vegan Spot',
-      photoUrl: 'https://images.unsplash.com/photo-1631311695255-8dde6bf96cb5?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fFZlZ2FuJTIwZm9vZHxlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 0.9,
-    },
-    {
-      name: 'Taco Fiesta',
-      photoUrl: 'https://images.unsplash.com/photo-1627564803215-ad55bad5c5ea?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8VGFjb3xlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 2.1,
-    },
-    {
-      name: 'Burger Barn',
-      photoUrl: 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fEJ1cmdlciUyMEJhcm58ZW58MHx8MHx8fDA%3D',
-      isOpen: false,
-      distance: 4.3,
-    },
-    {
-      name: 'Café Milano',
-      photoUrl: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fENhZiVDMyVBOXxlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 1.7,
-    },
-  ];
-
   return (
-    <main className="min-h-screen bg-gray-100 px-6 py-36">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {sampleRestaurants.map((restaurant, index) => (
-          <RestaurantCard
-            key={index}
-            name={restaurant.name}
-            photoUrl={restaurant.photoUrl}
-            isOpen={restaurant.isOpen}
-            distance={restaurant.distance}
-          />
-        ))}
+    <div className="h-screen container m-auto px-6 pt-10 md:px-12 lg:pt-10 lg:px-7">
+      <div>
+        <div className="relative lg:py-20 xl:py-20">
+          <h1 className="font-bold text-4xl text-slate-600 md:text-5xl text-center pb-10">
+            Hungry?
+          </h1>
+          <h3 className="font-bold text-2xl text-slate-600 text-center">
+            Find local, independent establishments on your doorstep.
+          </h3>
+
+          {/* Search Bar */}
+          <form action="" className="w-full mt-12">
+            <div className="relative flex p-1 rounded-full bg-white border border-slate-500 shadow-md md:p-2 w-1/2 mx-auto">
+              <input
+                placeholder="Where are you?"
+                className="w-full p-4 rounded-full pr-32"
+                type="text"
+              />
+
+              {/* Search Button - vertically centered */}
+              <button
+                type="button"
+                title="Search"
+                className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-8 h-12 flex items-center justify-center overflow-hidden font-semibold text-white group"
+              >
+                <span>Search</span>
+                <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
