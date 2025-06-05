@@ -77,7 +77,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-44 bg-white p-6 rounded-lg shadow-lg">
+    <div className="max-w-md mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

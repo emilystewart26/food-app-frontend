@@ -1,3 +1,4 @@
+import { ClerkProvider } from '@clerk/nextjs';//added this line
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./globalComponents/Navbar";
@@ -20,8 +21,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
         <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
       style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
         <Navbar />
@@ -30,5 +32,6 @@ export default function RootLayout({ children }) {
       </div>
         </body>
     </html>
+    </ClerkProvider>
   );
 }
