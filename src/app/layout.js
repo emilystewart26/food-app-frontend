@@ -21,12 +21,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="h-screen bg-gray-100"><div className="bg-gray-100">
+      <body>
+        <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
         <Navbar />
+      {children}
+      <Footer />
       </div>
-        {children}
-        <Footer />
-      </body>
+        </body>
     </html>
   );
 }
