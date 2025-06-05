@@ -2,6 +2,7 @@ import { ClerkProvider } from '@clerk/nextjs';//added this line
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./globalComponents/Navbar";
+import Footer from "./globalComponents/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,12 +21,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider> {/* wrap everything inside ClerkProvider*/}
+    <ClerkProvider>
       <html lang="en">
-        <body className="h-screen bg-blue-100"><div className="bg-blue-100">
-          <Navbar />
-        </div>
+        <body className="h-screen bg-gray-100">
+          <div className="bg-gray-100">
+            <Navbar />
+          </div>
           {children}
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
