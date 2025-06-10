@@ -1,62 +1,95 @@
-"use client";
-import Link from "next/link";
-import React from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 import RestaurantCard from '../globalComponents/RestaurantCard';
 
 export default function BrowseRestaurants() {
-  // Sample data for 6 restaurants
-  const sampleRestaurants = [
-    {
-      name: 'La Petite Cuisine',
-      photoUrl: 'https://images.unsplash.com/photo-1484980972926-edee96e0960d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      isOpen: true,
-      distance: 1.2,
-    },
-    {
-      name: 'Sakura Sushi',
-      photoUrl: 'https://images.unsplash.com/photo-1642479513653-1b5a1664df8d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      isOpen: false,
-      distance: 3.5,
-    },
-    {
-      name: 'The Vegan Spot',
-      photoUrl: 'https://images.unsplash.com/photo-1631311695255-8dde6bf96cb5?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fFZlZ2FuJTIwZm9vZHxlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 0.9,
-    },
-    {
-      name: 'Taco Fiesta',
-      photoUrl: 'https://images.unsplash.com/photo-1627564803215-ad55bad5c5ea?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8VGFjb3xlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 2.1,
-    },
-    {
-      name: 'Burger Barn',
-      photoUrl: 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fEJ1cmdlciUyMEJhcm58ZW58MHx8MHx8fDA%3D',
-      isOpen: false,
-      distance: 4.3,
-    },
-    {
-      name: 'Café Milano',
-      photoUrl: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fENhZiVDMyVBOXxlbnwwfHwwfHx8MA%3D%3D',
-      isOpen: true,
-      distance: 1.7,
-    },
-  ];
+  const [restaurants, setRestaurants] = useState([]);
+  const [filters, setFilters] = useState({
+    category: [],
+    meals: [],
+    dietary: [],
+    welcomes: [],
+    facilities: [],
+    price: [],
+    accessibility: [],
+  });
+
+  const handleFilterChange = (filterType, value) => {
+    setFilters((prev) => {
+      const current = prev[filterType];
+      const updated = current.includes(value)
+        ? current.filter((item) => item !== value)
+        : [...current, value];
+      return { ...prev, [filterType]: updated };
+    });
+  };
+
+  useEffect(() => {
+    const query = new URLSearchParams();
+    Object.entries(filters).forEach(([key, values]) => {
+      values.forEach((v) => query.append(key, v));
+    });
+
+    const fetchRestaurants = async () => {
+      const res = await fetch(`/api/restaurants?${query.toString()}`);
+      const data = await res.json();
+      setRestaurants(data);
+    };
+
+    fetchRestaurants();
+  }, [filters]);
 
   return (
-    <main className="min-h-screen bg-gray-100 px-6 py-36">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {sampleRestaurants.map((restaurant, index) => (
-          <RestaurantCard
-            key={index}
-            name={restaurant.name}
-            photoUrl={restaurant.photoUrl}
-            isOpen={restaurant.isOpen}
-            distance={restaurant.distance}
-          />
-        ))}
+    <main className="min-h-screen bg-blue-100 px-6 py-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar Filters */}
+        <aside className="md:col-span-1 bg-white p-4 rounded shadow">
+          <h2 className="text-xl font-semibold mb-4">Filters</h2>
+
+          <FilterGroup title="Type of Eatery" type="category" options={["cafe", "bar", "restaurant", "gastropub", "takeaway"]} onChange={handleFilterChange} />
+          <FilterGroup title="Meals" type="meals" options={["breakfast", "brunch", "lunch", "dinner"]} onChange={handleFilterChange} />
+          <FilterGroup title="Dietary Requirements" type="dietary" options={["vegetarian", "vegan", "glutenfree", "dairyfree", "halal", "kosher"]} onChange={handleFilterChange} />
+          <FilterGroup title="Feature Tags" type="welcomes" options={["children", "dogs"]} onChange={handleFilterChange} />
+          <FilterGroup title="Facilities" type="facilities" options={["toilets", "garden", "wifi"]} onChange={handleFilterChange} />
+          <FilterGroup title="Price" type="price" options={["cheap", "moderate", "expensive"]} onChange={handleFilterChange} />
+          <FilterGroup title="Accessibility" type="accessibility" options={["wheelchair", "disabled_bathroom"]} onChange={handleFilterChange} />
+        </aside>
+
+        {/* Restaurant Cards */}
+        <section className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {restaurants.length > 0 ? (
+            restaurants.map((restaurant, index) => (
+              <RestaurantCard
+                key={index}
+                name={restaurant.name}
+                photoUrl={restaurant.imageUrl?.[0] || ''}
+                isOpen={true}
+                distance={1.2}
+              />
+            ))
+          ) : (
+            <p className="col-span-full text-gray-500">No results found.</p>
+          )}
+        </section>
       </div>
     </main>
+  );
+}
+
+function FilterGroup({ title, type, options, onChange }) {
+  return (
+    <div className="mb-6">
+      <h3 className="font-medium mb-2">{title}</h3>
+      {options.map((option) => (
+        <label key={option} className="block text-sm text-gray-700">
+          <input
+            type="checkbox"
+            onChange={() => onChange(type, option)}
+            className="mr-2"
+          />
+          {option}
+        </label>
+      ))}
+    </div>
   );
 }
