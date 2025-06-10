@@ -2,7 +2,7 @@ Clone repo: git clone https://github.com/emilystewart26/food-app-frontend.git
 
 Initialise npm: npm init -y
 
-Install dependencies: @clerk/nextjs, npm install cloudinary
+Install dependencies: @clerk/nextjs, npm install next-cloudinary cloudinary
 
 Create .env file locally & add MongoDB connection string + JWT secret key (for more info see: .env.example)
 
