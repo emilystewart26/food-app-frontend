@@ -7,6 +7,7 @@ export default function BrowseRestaurants() {
   const [filters, setFilters] = useState({
     category: [],
     meals: [],
+    alcohol: false, 
     dietary: [],
     welcomes: [],
     facilities: [],
@@ -16,18 +17,30 @@ export default function BrowseRestaurants() {
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prev) => {
+      if (filterType === 'alcohol') {
+        return { ...prev, alcohol: value }; // value is true or false
+      }
+
       const current = prev[filterType];
       const updated = current.includes(value)
         ? current.filter((item) => item !== value)
         : [...current, value];
+
       return { ...prev, [filterType]: updated };
     });
   };
 
   useEffect(() => {
     const query = new URLSearchParams();
-    Object.entries(filters).forEach(([key, values]) => {
-      values.forEach((v) => query.append(key, v));
+
+    Object.entries(filters).forEach(([key, value]) => {
+      if (key === 'alcohol') {
+        if (value !== null) {
+          query.append('alcohol', value); // pass true/false
+        }
+      } else {
+        value.forEach((v) => query.append(key, v));
+      }
     });
 
     const fetchRestaurants = async () => {
@@ -53,6 +66,31 @@ export default function BrowseRestaurants() {
           <FilterGroup title="Facilities" type="facilities" options={["toilets", "garden", "wifi"]} onChange={handleFilterChange} />
           <FilterGroup title="Price" type="price" options={["cheap", "moderate", "expensive"]} onChange={handleFilterChange} />
           <FilterGroup title="Accessibility" type="accessibility" options={["wheelchair", "disabled_bathroom"]} onChange={handleFilterChange} />
+
+          {/* Alcohol Filter (Boolean Radio Buttons) */}
+          <div className="mb-6">
+            <h3 className="font-medium mb-2">Serves Alcohol</h3>
+            <label className="block text-sm text-gray-700">
+              <input
+                type="radio"
+                name="alcohol"
+                onChange={() => handleFilterChange("alcohol", true)}
+                checked={filters.alcohol === true}
+                className="mr-2"
+              />
+              Yes
+            </label>
+            <label className="block text-sm text-gray-700">
+              <input
+                type="radio"
+                name="alcohol"
+                onChange={() => handleFilterChange("alcohol", false)}
+                checked={filters.alcohol === false}
+                className="mr-2"
+              />
+              No
+            </label>
+          </div>
         </aside>
 
         {/* Restaurant Cards */}
