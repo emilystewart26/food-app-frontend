@@ -1,10 +1,13 @@
 "use client";
-import Link from "next/link";
-import React from 'react';
+
+import React from "react";
+import LoginForm from "../globalComponents/LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="h-screen bg-blue-100"> Hello World!
-    </div>
+      <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
+      <LoginForm />
+      </div>
   );
 }
