@@ -2,16 +2,32 @@ Clone repo: git clone https://github.com/emilystewart26/food-app-frontend.git
 
 Initialise npm: npm init -y
 
-Install dependencies: npm i @clerk/nextjs, npm install next-cloudinary cloudinary
+Install dependencies:
+
+npm i @clerk/nextjs
+
+npm install next-cloudinary cloudinary
+
+ npm install react-stars axios
 
 Create .env file locally & add MongoDB connection string + JWT secret key (for more info see: .env.example)
 
 Clerk guidelines
+
 Add to your.env.local file 
+
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id-here
+
 GOOGLE_CLIENT_SECRET=your-google-client-secret-here
+
 CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
+
 CLERK_SECRET_KEY=your-clerk-secret-key
+
+
+
+
+
 
 
 
