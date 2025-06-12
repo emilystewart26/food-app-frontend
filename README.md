@@ -4,6 +4,8 @@ Initialise npm: npm init -y
 
 Install dependencies:
 
+npm install axios
+
 npm i @clerk/nextjs
 
 npm install next-cloudinary cloudinary
