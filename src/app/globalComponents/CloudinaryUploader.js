@@ -18,7 +18,7 @@ const CloudinaryUploader = () => {
               <button
                 className="flex p-4 bg-transparent hover:bg-slate-600 text-slate-600 hover:text-blue-100 font-bold py-2 px-4 border rounded"
                 onClick={() => open()}>
-                Upload an Image
+                Upload Images
               </button>
             );
           }}
