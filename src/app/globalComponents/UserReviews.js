@@ -1,37 +1,44 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function UserReviews() {
   const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
+    const userId = localStorage.getItem("userId"); 
 
-    axios.get("/api/reviews/my", {
+    if (!token || !userId) {
+      setError("User not authenticated.");
+      return;
+    }
+
+    axios.get(`http://localhost:3001/api/reviews/userid/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => setReviews(res.data.reviews))
-    .catch((err) => console.error("Failed to fetch reviews", err));
+    .then((res) => setReviews(res.data))
+    .catch((err) => {
+      console.error("Failed to fetch user reviews:", err);
+      setError("Error fetching reviews");
+    });
   }, []);
 
   return (
     <div className="bg-white p-4 rounded shadow mb-6">
+      {error && <p className="text-red-500">{error}</p>}
       {reviews.length === 0 ? (
-        <p>You haven’t left any reviews yet.</p>
+        <p>You haven't written any reviews yet.</p>
       ) : (
-        reviews.map((review) => (
-          <div key={review._id} className="border-b py-2">
-            <p><strong>Restaurant:</strong> {review.restaurantId?.name}</p>
-            <p>🍽️ Food: {review.foodStars}★ – {review.foodReview}</p>
-            <p>🎶 Ambience: {review.ambienceStars}★ – {review.ambienceReview}</p>
-            <p>🧑‍🍳 Service: {review.serviceStars}★ – {review.serviceReview}</p>
-            <p>📍 Location: {review.locationStars}★ – {review.locationReview}</p>
-          </div>
-        ))
+        <ul className="list-disc pl-5">
+          {reviews.map((review) => (
+            <li key={review._id}>
+              <strong>{review.restaurantId?.name || "Unknown Restaurant"}:</strong> {review.content}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

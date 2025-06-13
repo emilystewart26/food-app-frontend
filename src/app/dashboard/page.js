@@ -3,6 +3,7 @@
 import UserDetails from "../globalComponents/UserDetails";
 import Favourites from "../globalComponents/UserFavourites";
 import UserReviews from "../globalComponents/UserReviews";
+import UserWishlist from "../globalComponents/UserWishlist";
 
 export default function ViewDashboard() {
   return (
@@ -15,17 +16,25 @@ export default function ViewDashboard() {
         <UserDetails />
       </section>
 
+      {/*  Wishlists Section */}
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Your Wishlists</h2>
+        <UserReviews />
+      </section>
+
       {/*  Favourites Section */}
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-2">Your Favourites</h2>
         <Favourites />
       </section>
 
+
       {/*  Reviews Section */}
       <section>
         <h2 className="text-xl font-semibold mb-2">Your Reviews</h2>
         <UserReviews />
       </section>
+
     </div>
   );
 }
