@@ -1,6 +1,7 @@
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
-const url = process.env.NEXT_PUBLIC_API_BASE_URL;
+const url = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
 
 export class ApiClient {
   constructor() {
@@ -40,12 +41,13 @@ export class ApiClient {
 
   async login(email, password) {
     console.log("test login");
-    const response = await this.apiCall("post", "auth/login", {
+    const response = await this.apiCall("post", "users/login", {
       email,
       password,
     });
     if (response.data?.token) {
       this.setToken(response.data.token);
+      console.log("Token saved:", this.getToken()); // <-- Add this
       return response;
     } else {
       throw new Error("No token received from server");
@@ -54,7 +56,7 @@ export class ApiClient {
 
   async register(email, password) {
     console.log("test register");
-    return this.apiCall("post", "auth/register", { email, password });
+    return this.apiCall("post", "users/register", { email, password });
   }
 
   logout() {
@@ -102,7 +104,12 @@ export class ApiClient {
       const response = await this.axiosInstance({ method, url: fullUrl, data });
       return response;
     } catch (error) {
-      console.error("API call error:", error.response || error);
+      console.error("API call error:", {
+  message: error.message,
+  status: error?.response?.status,
+  data: error?.response?.data,
+  url: `${url.replace(/\/$/, "")}/${path}`,
+});console.error("API call error:", error.response || error);
       if (error.response && error.response.status === 401) {
         this.removeToken();
         if (typeof window !== "undefined") {
@@ -110,6 +117,7 @@ export class ApiClient {
         }
       }
       throw error;
+      
     }
   }
 
@@ -194,3 +202,9 @@ export class ApiClient {
     return this.apiCall("delete", `restaurants/${id}`);
   }
 }
+
+
+
+
+
+
