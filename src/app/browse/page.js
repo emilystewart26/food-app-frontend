@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import RestaurantCard from '../globalComponents/RestaurantCard';
+// TODO: build a separate filter component (SearchFilter.js)
+// import SearchFilter from '../globalComponents/Filter'; 
+
 
 export default function BrowseRestaurants() {
   const [restaurants, setRestaurants] = useState([]);
