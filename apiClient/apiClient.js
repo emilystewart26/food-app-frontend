@@ -54,9 +54,9 @@ export class ApiClient {
     }
   }
 
-  async register(email, password) {
+  async register(username, email, password, role) {
     console.log("test register");
-    return this.apiCall("post", "users/register", { email, password });
+    return this.apiCall("post", "users/register", { username, email, password, role });
   }
 
   logout() {
@@ -123,10 +123,10 @@ export class ApiClient {
 
   //Restaurant Methods
 
-  //GET
+  //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
 
-  async getRestaurants() {
-    const response = await this.apiCall("get", "restaurants");
+  async getRestaurants(queryString) {
+    const response = await this.apiCall("get", `/restaurants?${queryString}`);
     return response.data;
   }
 
@@ -140,54 +140,21 @@ export class ApiClient {
     return response.data;
   }
 
-  async getRestaurantsByName(name) {
-    const response = await this.apiCall("get", `restaurants/name/${name}`);
-    return response.data;
-  }
-
-  async getRestaurantsByCity(city) {
-    const response = await this.apiCall("get", `restaurants/city/${city}`);
-    return response.data;
-  }
-
-  async getRestaurantsWithin1km(lat, lng) {
-    const response = await this.apiCall(
-      "get",
-      `restaurants/nearby/${lat}/${lng}`
-    );
-    return response.data;
-  }
-
-  async getRestaurantsWithin3km(lat, lng) {
-    const response = await this.apiCall(
-      "get",
-      `restaurants/nearby/${lat}/${lng}`
-    );
-    return response.data;
-  }
-
-  async getRestaurantsWithin5km(lat, lng) {
-    const response = await this.apiCall(
-      "get",
-      `restaurants/nearby/${lat}/${lng}`
-    );
-    return response.data;
-  }
-
   //POST
 
-  async addRestaurant(address, postcode, city, country) {
+  async addRestaurant(name, address, city, country /* review Restaurant Schema & check what needs to be listed here*/) {
     return this.apiCall("post", "restaurants", {
+      name,
       address,
-      postcode,
       city,
       country,
+      // review Restaurant Schema & check if anything else needs to be listed here
     });
   }
 
   //PUT
 
-  async updateRestaurant(id, address, postcode, city, country) {
+  async updateRestaurant(id, address, postcode, city, country /*as above*/) {
     return this.apiCall("put", `restaurants/${id}`, {
       address,
       postcode,
@@ -203,8 +170,32 @@ export class ApiClient {
   }
 }
 
+//=================== TODO:
+
+//    /reviews  = Review Routes
+// getReviews, "GET" "/"
+// getReviewsById, "GET" "/:id"
+// getReviewsByUserId, "GET" "/userid/:userId",
+// getReviewsByRestaurantId, "GET" "/restaurantid/:restaurantId"
+// addReview "POST" "/",    >>>>> TODO: double-check backend code - should this be by restaurant ID ???
 
 
+
+//     /users/favourites = Favourite Routes
+//  getFavourites  "GET"  "/"    >>>>>>>TODO: double-check backend code - should this be by user ID ???
+//  addToFavourites  "POST" "/:restaurantId"
+//  removeFromFavourites "DELETE"  ""/:restaurantId""
+
+
+
+
+
+
+
+
+
+// For dynamic updating of navbar
+export const apiClient = new ApiClient();
 
 
 
