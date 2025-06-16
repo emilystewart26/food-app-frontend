@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-        <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+        <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
       style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
         <Navbar />
       {children}
