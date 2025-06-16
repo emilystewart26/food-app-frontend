@@ -142,6 +142,16 @@ export class ApiClient {
 
   //POST
 
+  // ========== Favourite Methods ==========
+  async addToFavourites(restaurantId) {
+    return this.apiCall("post", `favourites/${restaurantId}`);
+  }
+
+  async removeFromFavourites(restaurantId) {
+    return this.apiCall("delete", `favourites/${restaurantId}`);
+  }
+
+
   async addRestaurant(name, address, city, country /* review Restaurant Schema & check what needs to be listed here*/) {
     return this.apiCall("post", "restaurants", {
       name,
