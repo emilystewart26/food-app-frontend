@@ -1,29 +1,37 @@
 import React from 'react';
 
-const RestaurantCard = ({ name, photoUrl, isOpen, distance }) => {
+export default function RestaurantCard({ restaurant }) {
+
+  const distanceKm = restaurant.distance / 1000;
+  const distanceKmRounded = Math.round(distanceKm * 100) / 100;
+  const distanceAvailable = typeof restaurant.distance === "number" && !Number.isNaN(distanceKmRounded);
+
+  const defaultImageUrl = "https://res.cloudinary.com/demo/image/upload/sample.jpg";
+  const imageUrl = Array.isArray(restaurant.imageUrls) && restaurant.imageUrls.length > 0 ? restaurant.imageUrls[0] : defaultImageUrl;
+
   return (
     <div className="w-full max-w-md rounded-2xl shadow-md p-4 border bg-white">
       {/* Name of Restaurant*/}
       <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
-        {name}
+        {restaurant.name}
       </h2>
 
       {/* Photo */}
       <img
-        src={photoUrl}
-        alt={`${name} photo`}
+        //className ={} 
+        src={imageUrl}
+        alt={restaurant.name}
         className="w-full h-48 object-cover rounded-xl mb-3"
       />
-
-      {/* Open status and distance */}
-      <div className="flex justify-between items-center text-sm text-gray-600">
-        <span className={isOpen ? "text-green-600 font-medium" : "text-red-500 font-medium"}>
-          {isOpen ? "Open Now" : "Closed"}
-        </span>
-        <span>{distance} km away</span>
-      </div>
+      {/* Address */}
+      <p className="text-sm text-gray-800 font-semibold">Address: <span className="text-gray-600 font-normal">{restaurant.address}, {restaurant.city} {restaurant.postcode}</span></p>
+      {distanceAvailable && (
+        <p className="text-sm text-gray-800 font-semibold"> {distanceKmRounded} km away </p>
+      )}
     </div>
   );
 };
 
-export default RestaurantCard;
+
+
+
