@@ -3,11 +3,11 @@ import React from 'react';
 export default function RestaurantCard({ restaurant }) {
 
   const distanceKm = restaurant.distance / 1000;
-  const distanceKmRounded = Math.round(distanceKm * 100) / 100;
+  const distanceKmRounded = Math.round(distanceKm * 10) / 10;
   const distanceAvailable = typeof restaurant.distance === "number" && !Number.isNaN(distanceKmRounded);
 
   const defaultImageUrl = "https://res.cloudinary.com/demo/image/upload/sample.jpg";
-  const imageUrl = Array.isArray(restaurant.imageUrls) && restaurant.imageUrls.length > 0 ? restaurant.imageUrls[0] : defaultImageUrl;
+  const imageUrl = Array.isArray(restaurant.imageUrl) && restaurant.imageUrl.length > 0 ? restaurant.imageUrl[0] : defaultImageUrl;
 
   return (
     <div className="w-full max-w-md rounded-2xl shadow-md p-4 border bg-white">

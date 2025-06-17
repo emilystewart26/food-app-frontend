@@ -1,6 +1,20 @@
-import React from "react";
+'use client';
+//import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation"; 
 
 export default function Home() {
+ 
+  const [city, setCity] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+   if (city.trim() !== "") {
+    router.push(`/browse?city=${encodeURIComponent(city.trim())}`);
+  }
+  };
+
   return (
     <div className="h-screen container m-auto px-6 pt-10 md:px-12 lg:pt-10 lg:px-7">
       <div>
@@ -13,18 +27,20 @@ export default function Home() {
           </h3>
 
           {/* Search Bar */}
-          <form action="" className="w-full mt-12">
+          <form onSubmit={handleSubmit} className="w-full mt-12">
             <div className="relative flex p-1 rounded-full bg-white border border-slate-500 shadow-md md:p-2 w-1/2 mx-auto">
               <input
                 placeholder="Where are you?"
                 className="w-full p-4 rounded-full pr-32"
                 type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
               />
 
               {/* Search Button - vertically centered */}
               <button
-                type="button"
-                title="Search"
+                type="submit"
+                title="search"
                 className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-8 h-12 flex items-center justify-center overflow-hidden font-semibold text-white group"
               >
                 <span>Search</span>
