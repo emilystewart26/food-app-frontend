@@ -124,9 +124,9 @@ export class ApiClient {
   //Restaurant Methods
 
   //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
-
+   
   async getRestaurants(queryString) {
-    const response = await this.apiCall("get", `/restaurants?${queryString}`);
+    const response = await this.apiCall("get", `restaurants?${queryString}`);
     return response.data;
   }
 
