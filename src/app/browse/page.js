@@ -4,10 +4,11 @@ import SearchFilter from "../globalComponents/SearchFilter";
 import RestaurantCard from "../globalComponents/RestaurantCard";
 import { ApiClient } from '../../../apiClient/apiClient';
 import { buildSearchParams } from "../../utils/buildSearchParams";
+import { useSearchParams } from 'next/navigation';
 
 export default function BrowsePage() {
-  //const [filters, setFilters] = useState({});
   const [restaurants, setRestaurants] = useState([]);
+  const searchParams = useSearchParams();
 
   const fetchCoordinates = async (city) => {
     const response = await fetch(
@@ -46,9 +47,17 @@ export default function BrowsePage() {
 
     const query = buildSearchParams(newFilters, location);
     const apiClient = new ApiClient();
-    const response = await  await apiClient.getRestaurants(query);
+    const response = await apiClient.getRestaurants(query);
     setRestaurants(response);
   };
+
+  // Auto-trigger on first load if ?city=London found
+  useEffect(() => {
+    const cityFromQuery = searchParams.get("city");
+    if (cityFromQuery) {
+      handleFilterChange({ city: cityFromQuery });
+    }
+  }, [searchParams]);
 
   return (
     <div className="flex">
