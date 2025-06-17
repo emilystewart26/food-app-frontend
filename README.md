@@ -2,7 +2,7 @@ Clone repo: git clone https://github.com/emilystewart26/food-app-frontend.git
 
 Initialise npm: npm init -y
 
-Install dependencies:
+## Install dependencies:
 
 npm install axios
 
@@ -12,9 +12,11 @@ npm install next-cloudinary cloudinary
 
  npm install react-stars axios
 
-Create .env file locally & add MongoDB connection string + JWT secret key (for more info see: .env.example)
+ npm install lucide-react
 
-Clerk guidelines
+## Create .env file locally & add MongoDB connection string + JWT secret key (for more info see: .env.example)
+
+## Clerk guidelines:
 
 Add to your.env.local file 
 
