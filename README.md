@@ -14,7 +14,7 @@ npm install next-cloudinary cloudinary
 
  npm install lucide-react
 
-## Create .env file locally & add MongoDB connection string + JWT secret key (for more info see: .env.example)
+## Create .env file locally and add NOMINATIM_USER_AGENT_EMAIL=valid_email_address
 
 ## Clerk guidelines:
 
