@@ -1,52 +1,80 @@
 "use client";
-import React from "react";
-import { UserButton, SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
+import React, { useState } from "react";
+import {
+  UserButton,
+  SignedIn,
+  SignedOut,
+  SignOutButton,
+} from "@clerk/nextjs";
+import { Menu, X } from "lucide-react"; // for hamburger icons
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav className="block w-full max-w-screen-lg px-4 py-2 mx-auto bg-slate-500 shadow-xl rounded-lg lg:px-8 lg:py-3 backdrop-blur-sm bg-opacity-90">
-      <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
+      <div className="flex items-center justify-between text-white">
         <a
           href="/"
-          className="mr-4 block cursor-pointer py-1.5 text-2xl text-white font-semibold"
+          className="block cursor-pointer py-1.5 text-2xl font-semibold"
         >
           Food App
         </a>
 
-        <div className="hidden lg:block">
-          <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            <li className="flex items-center p-1 text-sm gap-x-2 text-white hover:scale-110 duration-300">
-              <a href="/dashboard" className="flex items-center">Dashboard</a>
-            </li>
-            <li className="flex items-center p-1 text-sm gap-x-2 text-white hover:scale-110 duration-300">
-              <a href="/create" className="flex items-center">Create</a>
-            </li>
-            <li className="flex items-center p-1 text-sm gap-x-2 text-white hover:scale-110 duration-300">
-              <a href="/browse" className="flex items-center">Browse</a>
-            </li>
+        {/* Mobile Menu Button */}
+        <button
+          className="lg:hidden p-2"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
 
-            {/* Show this when signed out */}
+        {/* Desktop Menu */}
+        <div className="hidden lg:block">
+          <ul className="flex flex-row items-center gap-6">
+            <li>
+              <a
+                href="/dashboard"
+                className="text-md hover:text-lg duration-300"
+              >
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                href="/create"
+                className="text-md hover:text-lg duration-300"
+              >
+                Create
+              </a>
+            </li>
+            <li>
+              <a
+                href="/browse"
+                className="text-md hover:text-lg duration-300"
+              >
+                Browse
+              </a>
+            </li>
             <SignedOut>
               <li>
                 <a
-                  href="/register"
-                  className="flex items-center p-1 text-sm gap-x-2 text-white rounded-xl bg-amber-500 px-4 py-2 hover:bg-amber-600 duration-300"
+                  href="/login"
+                  className="rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-6 h-8 flex items-center justify-center overflow-hidden font-semibold text-white"
                 >
                   Login
                 </a>
               </li>
             </SignedOut>
-
-            {/* Show this when signed in */}
             <SignedIn>
               <li>
                 <SignOutButton>
-                  <button className="flex items-center text-sm gap-x-2 text-white rounded-xl bg-red-500 px-4 py-2 hover:bg-red-600 duration-300">
+                  <button className="rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-6 h-8 flex items-center justify-center overflow-hidden font-semibold text-white">
                     Sign Out
                   </button>
                 </SignOutButton>
               </li>
-
               <li>
                 <UserButton afterSignOutUrl="/" />
               </li>
@@ -54,6 +82,45 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="lg:hidden mt-4">
+          <ul className="flex flex-col gap-4 text-white">
+            <li>
+              <a href="/dashboard" className="text-md hover:text-lg duration-300">Dashboard</a>
+            </li>
+            <li>
+              <a href="/create" className="text-md hover:text-lg duration-300">Create</a>
+            </li>
+            <li>
+              <a href="/browse" className="text-md hover:text-lg duration-300">Browse</a>
+            </li>
+            <SignedOut>
+              <li>
+                <a
+                  href="/login"
+                  className="rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-6 h-8 w-20 flex items-center justify-center overflow-hidden font-semibold text-white"
+                >
+                  Login
+                </a>
+              </li>
+            </SignedOut>
+            <SignedIn>
+              <li>
+                <SignOutButton>
+                  <button className="rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-6 h-8 w-30 flex items-center justify-center overflow-hidden font-semibold text-white">
+                    Sign Out
+                  </button>
+                </SignOutButton>
+              </li>
+              <li>
+                <UserButton afterSignOutUrl="/" />
+              </li>
+            </SignedIn>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
