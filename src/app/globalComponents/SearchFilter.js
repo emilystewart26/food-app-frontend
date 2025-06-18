@@ -34,7 +34,7 @@ export default function SearchFilter({ onFilterChange }) {
   };
 
   return (
-    <div className="p-4 border-r w-64 space-y-4 bg-white/50">
+    <div className="p-4  w-64 space-y-4 bg-white/50">
       <div>
       <div>
         <p className="mb-1">Search by City</p>

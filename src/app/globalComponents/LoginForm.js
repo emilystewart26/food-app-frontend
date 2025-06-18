@@ -1,9 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import { ApiClient } from "../../../apiClient/apiClient";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { SignInButton } from "@clerk/nextjs";
 // import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm() {
@@ -65,7 +65,7 @@ export default function LoginForm() {
             className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="you@example.com"
             autoComplete="email"
-            required
+            required={true}
           />
         </div>
         <div className="mb-6">
@@ -84,7 +84,7 @@ export default function LoginForm() {
             className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="••••••••"
             autoComplete="current-password"
-            required
+            required={true}
           />
         </div>
         {error && (
@@ -97,6 +97,18 @@ export default function LoginForm() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        {/* ======================== */}
+        <div className="text-center mt-6">
+              <p className="text-gray-500 mb-2">or</p>
+      
+              <SignInButton mode="modal" redirecturl="/dashboard">
+                <button className="w-full bg-blue-600 border border-gray-300 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+                  Continue with Google
+                </button>
+              </SignInButton>
+            </div>
+           {/* ======================== */}
+
         <Link href="/register">
           <p className="mt-6 text-center text-sm text-slate-400 hover:underline hover:cursor-pointer hover:text-slate-200">
             Don't have account? Click here to register.
