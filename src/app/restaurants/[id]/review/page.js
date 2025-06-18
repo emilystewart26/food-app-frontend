@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { apiClient } from "../../../../../apiClient/apiClient";
 
 const ReactStars = dynamic(() => import("react-stars"), { ssr: false });
 
 export default function ReviewPage() {
-  const [restaurants, setRestaurants] = useState([]);
+  const { id } = useParams(); // Restaurant ID from the route
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     foodReview: "",
     foodStars: 0,
@@ -17,53 +20,27 @@ export default function ReviewPage() {
     serviceStars: 0,
     locationReview: "",
     locationStars: 0,
-    restaurantId: "",
+    restaurantId: "", 
   });
 
-  const fetchRestaurants = async () => {
-    try {
-      const res = await axios.get("/api/restaurants"); // Update this if needed
-      setRestaurants(res.data);
-    } catch (err) {
-      console.error("Error fetching restaurants:", err);
-    }
-  };
-
   useEffect(() => {
-    fetchRestaurants();
-  }, []);
+    if (id) {
+      setFormData((prev) => ({ ...prev, restaurantId: id }));
+    }
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
+    
+      await apiClient.submitReview({ ...formData, restaurantId: id });
 
-      const res = await axios.post(
-        `/api/reviews/${formData.restaurantId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert("Review submitted successfully!");
-      setFormData({
-        foodReview: "",
-        foodStars: 0,
-        ambienceReview: "",
-        ambienceStars: 0,
-        serviceReview: "",
-        serviceStars: 0,
-        locationReview: "",
-        locationStars: 0,
-        restaurantId: "",
-      });
+      alert("Review submitted!");
+      router.push(`/restaurants/${id}`);
     } catch (err) {
-      console.error("Error submitting review:", err);
-      alert("Failed to submit review");
+      console.error("Review submission failed:", err);
+      alert("Failed to submit review.");
     }
   };
 
@@ -74,30 +51,14 @@ export default function ReviewPage() {
         onSubmit={handleSubmit}
         className="space-y-6 bg-white p-6 shadow-md rounded-xl"
       >
-        <select
-          className="w-full border rounded p-2"
-          value={formData.restaurantId}
-          onChange={(e) =>
-            setFormData({ ...formData, restaurantId: e.target.value })
-          }
-          required
-        >
-          <option value="">Select a restaurant</option>
-          {restaurants.map((restaurant) => (
-            <option key={restaurant._id} value={restaurant._id}>
-              {restaurant.name}
-            </option>
-          ))}
-        </select>
-
-        {/* Food */}
+        {/* Food Section */}
         <div>
           <label>How was the food?</label>
           <ReactStars
             count={5}
             value={formData.foodStars}
-            onChange={(newValue) =>
-              setFormData({ ...formData, foodStars: newValue })
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, foodStars: value }))
             }
             size={30}
             color2="#ffd700"
@@ -105,23 +66,26 @@ export default function ReviewPage() {
           <textarea
             className="w-full border rounded p-2 mt-2"
             rows={3}
+            required
             placeholder="Describe your experience"
             value={formData.foodReview}
             onChange={(e) =>
-              setFormData({ ...formData, foodReview: e.target.value })
+              setFormData((prev) => ({
+                ...prev,
+                foodReview: e.target.value,
+              }))
             }
-            required
           />
         </div>
 
-        {/* Ambience */}
+        {/* ambience, service, location */}
         <div>
           <label>How was the ambience?</label>
           <ReactStars
             count={5}
             value={formData.ambienceStars}
-            onChange={(newValue) =>
-              setFormData({ ...formData, ambienceStars: newValue })
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, ambienceStars: value }))
             }
             size={30}
             color2="#ffd700"
@@ -129,23 +93,25 @@ export default function ReviewPage() {
           <textarea
             className="w-full border rounded p-2 mt-2"
             rows={3}
-            placeholder="Describe the ambiance"
+            required
+            placeholder="Describe the ambience"
             value={formData.ambienceReview}
             onChange={(e) =>
-              setFormData({ ...formData, ambienceReview: e.target.value })
+              setFormData((prev) => ({
+                ...prev,
+                ambienceReview: e.target.value,
+              }))
             }
-            required
           />
         </div>
 
-        {/* Service */}
         <div>
           <label>How was the service?</label>
           <ReactStars
             count={5}
             value={formData.serviceStars}
-            onChange={(newValue) =>
-              setFormData({ ...formData, serviceStars: newValue })
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, serviceStars: value }))
             }
             size={30}
             color2="#ffd700"
@@ -153,23 +119,25 @@ export default function ReviewPage() {
           <textarea
             className="w-full border rounded p-2 mt-2"
             rows={3}
+            required
             placeholder="Describe the service"
             value={formData.serviceReview}
             onChange={(e) =>
-              setFormData({ ...formData, serviceReview: e.target.value })
+              setFormData((prev) => ({
+                ...prev,
+                serviceReview: e.target.value,
+              }))
             }
-            required
           />
         </div>
 
-        {/* Location */}
         <div>
           <label>How was the location?</label>
           <ReactStars
             count={5}
             value={formData.locationStars}
-            onChange={(newValue) =>
-              setFormData({ ...formData, locationStars: newValue })
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, locationStars: value }))
             }
             size={30}
             color2="#ffd700"
@@ -177,12 +145,15 @@ export default function ReviewPage() {
           <textarea
             className="w-full border rounded p-2 mt-2"
             rows={3}
+            required
             placeholder="Was the location convenient?"
             value={formData.locationReview}
             onChange={(e) =>
-              setFormData({ ...formData, locationReview: e.target.value })
+              setFormData((prev) => ({
+                ...prev,
+                locationReview: e.target.value,
+              }))
             }
-            required
           />
         </div>
 
