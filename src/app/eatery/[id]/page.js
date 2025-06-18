@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { apiClient } from "../../../../apiClient/apiClient.js"; // ✅ Adjust path as needed
+import Link from "next/link";
+import { apiClient } from "../../../../apiClient/apiClient";
 
 import RestaurantDetails from "../../globalComponents/RestaurantDetails";
 import RestaurantMap from "../../globalComponents/RestaurantMap";
@@ -45,6 +46,15 @@ export default function EateryPage() {
           <RestaurantMap mapUrl={restaurant.googleMapsUrl} />
           <RestaurantDescription description={restaurant.description} />
           <RestaurantReviews restaurantId={id} />
+
+          {/* Leave Review Button */}
+          <div className="mt-6">
+            <Link href={`/restaurants/${id}/review`}>
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+                Leave a Review
+              </button>
+            </Link>
+          </div>
         </div>
       </main>
     </div>

@@ -178,6 +178,13 @@ export class ApiClient {
   async deleteRestaurant(id) {
     return this.apiCall("delete", `restaurants/${id}`);
   }
+  
+
+    // ========== Review Methods ==========
+  async submitReview(reviewData) {
+    return this.apiCall("post", "reviews", reviewData);
+  }
+
 }
 
 //=================== TODO:
