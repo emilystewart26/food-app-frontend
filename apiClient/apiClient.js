@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const url = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
 
@@ -37,7 +37,7 @@ export class ApiClient {
     );
   }
 
-  //Auth Methods
+  //==Auth Methods==
 
   async login(email, password) {
     console.log("test login");
@@ -56,7 +56,12 @@ export class ApiClient {
 
   async register(username, email, password, role) {
     console.log("test register");
-    return this.apiCall("post", "users/register", { username, email, password, role });
+    return this.apiCall("post", "users/register", {
+      username,
+      email,
+      password,
+      role,
+    });
   }
 
   logout() {
@@ -66,7 +71,7 @@ export class ApiClient {
     }
   }
 
-  //Token Helpers
+  //==Token Helpers==
 
   getToken() {
     if (typeof window !== "undefined") {
@@ -89,13 +94,13 @@ export class ApiClient {
     }
   }
 
-  //Authentication Status
+  //==Authentication Status==
 
   isLoggedIn() {
     return !!this.getToken();
   }
 
-  //API Call Handler
+  //==API Call Handler==
 
   async apiCall(method, path, data) {
     const fullUrl = `${url.replace(/\/$/, "")}/${path}`;
@@ -105,11 +110,12 @@ export class ApiClient {
       return response;
     } catch (error) {
       console.error("API call error:", {
-  message: error.message,
-  status: error?.response?.status,
-  data: error?.response?.data,
-  url: `${url.replace(/\/$/, "")}/${path}`,
-});console.error("API call error:", error.response || error);
+        message: error.message,
+        status: error?.response?.status,
+        data: error?.response?.data,
+        url: `${url.replace(/\/$/, "")}/${path}`,
+      });
+      console.error("API call error:", error.response || error);
       if (error.response && error.response.status === 401) {
         this.removeToken();
         if (typeof window !== "undefined") {
@@ -117,14 +123,13 @@ export class ApiClient {
         }
       }
       throw error;
-      
     }
   }
 
-  //Restaurant Methods
+  //==Restaurant Methods==
 
   //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
-   
+
   async getRestaurants(queryString) {
     const response = await this.apiCall("get", `restaurants?${queryString}`);
     return response.data;
@@ -142,7 +147,7 @@ export class ApiClient {
 
   //POST
 
-  // ========== Favourite Methods ==========
+  //Favourite Methods
   async addToFavourites(restaurantId) {
     return this.apiCall("post", `favourites/${restaurantId}`);
   }
@@ -151,8 +156,12 @@ export class ApiClient {
     return this.apiCall("delete", `favourites/${restaurantId}`);
   }
 
-
-  async addRestaurant(name, address, city, country /* review Restaurant Schema & check what needs to be listed here*/) {
+  async addRestaurant(
+    name,
+    address,
+    city,
+    country /* review Restaurant Schema & check what needs to be listed here*/
+  ) {
     return this.apiCall("post", "restaurants", {
       name,
       address,
@@ -178,41 +187,106 @@ export class ApiClient {
   async deleteRestaurant(id) {
     return this.apiCall("delete", `restaurants/${id}`);
   }
-  
 
-    // ========== Review Methods ==========
+  //== Review Methods==
+
+  //GET
+
+  async getReviews() {
+    const response = await this.apiCall("get", "reviews");
+    return response.data;
+  }
+
+  async getReviewsById(id) {
+    const response = await this.apiCall("get", `reviews/${id}`);
+    return response.data;
+  }
+
+  async getReviewsByUserId(userId) {
+    const response = await this.apiCall("get", `reviews/userid/${userId}`);
+    return response.data;
+  }
+
+  async getReviewsByRestaurantId(restaurantId) {
+    const response = await this.apiCall(
+      "get",
+      `reviews/restaurantid/${restaurantId}`
+    );
+    return response.data;
+  }
+
+  // POST
+  async addReview(
+    foodReview,
+    foodStars,
+    ambienceReview,
+    ambienceStars,
+    serviceReview,
+    serviceStars,
+    locationReview,
+    locationStars,
+    userId,
+    restaurantId
+  ) {
+    const response = await this.apiCall("post", "reviews", {
+      foodReview,
+      foodStars,
+      ambienceReview,
+      ambienceStars,
+      serviceReview,
+      serviceStars,
+      locationReview,
+      locationStars,
+      userId,
+      restaurantId,
+    });
+    return response.data;
+  }
+
+  /* Not sure what this code is for, leftover from something else? */
   async submitReview(reviewData) {
     return this.apiCall("post", "reviews", reviewData);
   }
 
+  /* No corresponding code in backend for PUT/DELETE yet */
+
+  // //PUT
+
+  // async editReview(
+  //   foodReview,
+  //   foodStars,
+  //   ambienceReview,
+  //   ambienceStars,
+  //   serviceReview,
+  //   serviceStars,
+  //   locationReview,
+  //   locationStars,
+  //   userId,
+  //   restaurantId) {
+  //     return this.apiCall("put", `restaurants/${id}`, {
+  //        foodReview,
+  //     foodStars,
+  //     ambienceReview,
+  //     ambienceStars,
+  //     serviceReview,
+  //     serviceStars,
+  //     locationReview,
+  //     locationStars,
+  //     userId,
+  //     restaurantId
+  //     });
+  //   }
+
+  //   //DELETE
+
+  //   async deleteReview(id) {
+  //     return this.apiCall("delete", `reviews/${id}`);
+  //   }
 }
 
 //=================== TODO:
-
-//    /reviews  = Review Routes
-// getReviews, "GET" "/"
-// getReviewsById, "GET" "/:id"
-// getReviewsByUserId, "GET" "/userid/:userId",
-// getReviewsByRestaurantId, "GET" "/restaurantid/:restaurantId"
-// addReview "POST" "/",    >>>>> TODO: double-check backend code - should this be by restaurant ID ???
-
-
 
 //     /users/favourites = Favourite Routes
 //  getFavourites  "GET"  "/"    >>>>>>>TODO: double-check backend code - should this be by user ID ???
 //  addToFavourites  "POST" "/:restaurantId"
 //  removeFromFavourites "DELETE"  ""/:restaurantId""
-
-
-
-
-
-
-
-
-
-// For dynamic updating of navbar
-export const apiClient = new ApiClient();
-
-
-

@@ -4,7 +4,7 @@ import React from 'react';
 const Footer = () => {
 
   return (
-   <footer className="block flex justify-center px-4 py-4 mx-auto text-slate-800 bg-[rgb(193,233,239)] bg-opacity-0 position-absolute">
+   <footer className="block flex justify-center px-4 py-4 mx-auto text-slate-800 bg-[rgb(193,233,239)] position-absolute">
     <p>Copyright &copy; 2025 FoodApp&trade; | All Rights Reserved.</p>
 </footer>
   );
