@@ -8,7 +8,7 @@ const cld = new Cloudinary({ cloud: { cloudName: process.env.dx9lz1em1 } });
 
 export default function CreateRestaurantPage() {
   return (
-    <div className="flex-row content-start h-screen bg-blue-100 text-black space-x-4">
+    <div className="flex-row content-start h-screen text-black space-x-4">
       {/* <h1 className="p-4 m-4 text-2xl font-bold text-slate-600">
         Create a page for your establishment
       </h1> */}

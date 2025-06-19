@@ -16,6 +16,8 @@ export default function Home() {
   };
 
   return (
+    <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
     <div className="h-screen container m-auto px-6 pt-10 md:px-12 lg:pt-10 lg:px-7">
       <div>
         <div className="relative lg:py-20 xl:py-20">
@@ -66,6 +68,7 @@ export default function Home() {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 }

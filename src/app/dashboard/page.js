@@ -7,7 +7,7 @@ import UserReviews from "../globalComponents/UserReviews";
 
 export default function ViewDashboard() {
   return (
-    <div className="min-h-screen bg-blue-100 py-10 px-6">
+    <div className="min-h-screen py-10 px-6">
       <h1 className="text-3xl font-bold mb-8">Your Dashboard</h1>
 
       {/*  User Details */}
