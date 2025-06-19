@@ -16,7 +16,7 @@ export default function ReviewCard() {
           return;
         }
 
-        const res = await fetch(`http://localhost:5000/api/reviews/userid/${userId}`, {
+        const res = await fetch(`http://localhost:3001/api/reviews/userid/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
