@@ -60,7 +60,7 @@ export default function BrowsePage() {
   }, [searchParams]);
 
   return (
-    <div className="flex">
+    <div className="flex bg-[rgb(193,233,239)] h-screen">
       <SearchFilter onFilterChange={handleFilterChange} />
       <div className="grid grid-cols-3 gap-4 p-4 flex-grow">
         {restaurants.length === 0 ? (
