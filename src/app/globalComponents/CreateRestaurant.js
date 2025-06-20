@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import CloudinaryUploader from "../globalComponents/CloudinaryUploader";
-// import { Checkbox } from './Checkbox';
 
 export default function CreateRestaurant() {
     const [formData, setFormData] = useState({
@@ -27,30 +26,14 @@ export default function CreateRestaurant() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
+    const [textarea, setTextarea] = useState(" ");
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
-
-    // Checkbox function???
-
-//     function handleInputChange(e) {
-//     if (e.target.type == 'checkbox') {
-//       if (e.target.checked) {
-//         setData({
-//           ...data, [e.target.name]: true
-//         })
-//       } else {
-//         setData({
-//           ...data, [e.target.name]: false
-//         })
-//       }
-//     } else {
-//       setData({ ...data, [e.target.name]: e.target.value })
-//     }
-//   }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -96,18 +79,16 @@ export default function CreateRestaurant() {
         setSuccessMessage('Establishment page submitted!')
     };
 
-    //py-10 px-4
-
     return  (
         <div className="max-w-4xl mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-10 text-center">Create establishment page</h2>
 
       {/* <h3 className="block mb-1 font-bold text-xl mb-2">Details</h3> */}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4  pl-20">
         {/* Name */}
         <div>
-            <label className="block mb-1 font-medium">Name</label>
+            <label className="block mb-1 text-lg">Name<span className="text-red-500">*</span></label>
             <input 
             type="text"
             name="name"
@@ -120,7 +101,7 @@ export default function CreateRestaurant() {
 
         {/* Address */}
         <div>
-            <label className="block mb-1 font-medium">Address</label>
+            <label className="block mb-1 text-lg">Address<span className="text-red-500">*</span></label>
             <input 
             type="text"
             name="address"
@@ -133,7 +114,7 @@ export default function CreateRestaurant() {
 
         {/* Postcode */}
         <div>
-            <label className="block mb-1 font-medium">Postcode</label>
+            <label className="block mb-1 text-lg">Postcode</label>
             <input 
             type="postcode"
             name="postcode"
@@ -146,7 +127,7 @@ export default function CreateRestaurant() {
 
         {/* City */}
         <div>
-            <label className="block mb-1 font-medium">City</label>
+            <label className="block mb-1 text-lg">City<span className="text-red-500">*</span></label>
             <input 
             type="text"
             name="city"
@@ -159,7 +140,7 @@ export default function CreateRestaurant() {
 
         {/* Country */}
         <div>
-            <label className="block mb-1 font-medium">Country</label>
+            <label className="block mb-1 text-lg">Country<span className="text-red-500">*</span></label>
             <input 
             type="text"
             name="country"
@@ -172,7 +153,7 @@ export default function CreateRestaurant() {
 
         {/* Telephone */}
         <div>
-            <label className="block mb-1 font-medium">Telephone No.</label>
+            <label className="block mb-1 text-lg">Telephone no.</label>
             <input 
             type="number"
             name="telephone"
@@ -185,7 +166,7 @@ export default function CreateRestaurant() {
 
         {/* Website */}
         <div>
-            <label className="block mb-1 font-medium">Website</label>
+            <label className="block mb-1 text-lg">Website</label>
             <input 
             type="text"
             name="website"
@@ -196,10 +177,59 @@ export default function CreateRestaurant() {
             />
         </div>
 
+        {/* Tags */}
+        {/* FREETYPE */}
+        <div>
+            <label className="block mb-1 text-lg">Additional tags</label>
+            <input 
+            type="text"
+            name="tags"
+            required
+            value={formData.tags}
+            onChange={handleChange}
+            className="py-2 px-4 w-md border rounded"
+            />
+        </div>
+
+        {/* Description */}
+        {/* TEXTBOX */}
+        <div>
+            <label className="block mb-1 text-lg">Description</label>
+            <textarea 
+            type="text"
+            name="description"
+            required
+            value={formData.description}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded"
+            />
+            {/* <form>
+      <textarea value={textarea} onChange={handleChange} /> */}
+    </div>
+
+
+        {/* Image- Cloudinary URL */}
+        <label className="block mb-1 text-lg">Images</label>
+        <CloudinaryUploader />
+
+        {/* Google Maps URL */}
+        {/* TEXTBOX */}
+        <div>
+            <label className="block mb-1 text-lg">Google Maps URL</label>
+            <input 
+            type="text"
+            name="googleMapsUrl"
+            required
+            value={formData.googleMapsUrl}
+            onChange={handleChange}
+            className="py-2 px-4 w-md border rounded"
+            />
+        </div>
+
         {/* Category */}
         {/* Change to checkbox? */}
         <div>
-            <label className="block mb-1 font-medium">Category</label>
+            <label className="block mb-1 text-lg">Category<span className="text-red-500">*</span></label>
             <select
             name="category"
             value={formData.category}
@@ -217,13 +247,39 @@ export default function CreateRestaurant() {
 
         {/* Meals */}
         {/* CHECKBOX */}
+        <div>
+            <label className="block mb-1 text-lg">Meals<span className="text-red-500">*</span></label>
+        {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
+          <label className="block text-medium">
+            <input
+              type="checkbox"
+              value={formData.meals}
+              onChange={() => handleCheckboxChange("meals", val)}
+            />{" "}
+            {val}
+          </label>
+        ))}
+      </div>
 
         {/* Dietary */}
         {/* CHECKBOX */}
+        <div>
+            <label className="block mb-1 text-lg">Dietary restrictions</label>
+        {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
+          <label className="block text-medium">
+            <input
+              type="checkbox"
+              value={formData.dietary}
+              onChange={() => handleCheckboxChange("meals", val)}
+            />{" "}
+            {val}
+          </label>
+        ))}
+      </div>
 
         {/* Alcohol */}
         <div>
-            <label className="block mb-1 font-medium">Does your establishment serve alcohol?</label>
+            <label className="block mb-1 text-lg">Does your establishment serve alcohol?</label>
             <select
             name="alcohol"
             value={formData.alcohol}
@@ -238,53 +294,51 @@ export default function CreateRestaurant() {
 
         {/* Welcomes */}
         {/* CHECKBOX */}
+        <div>
+            <label className="block mb-1 text-lg">Welcomes</label>
+        {["Dogs", "Children"].map((val) => (
+          <label className="block text-medium">
+            <input
+              type="checkbox"
+              value={formData.welcomes}
+              onChange={() => handleCheckboxChange("meals", val)}
+            />{" "}
+            {val}
+          </label>
+        ))}
+      </div>
 
         {/* Facilities */}
         {/* CHECKBOX */}
-
-        {/* Tags */}
-        {/* FREETYPE */}
-
-        {/* Description */}
-        {/* TEXTBOX */}
         <div>
-            <label className="block mb-1 font-medium">Description</label>
-            <input 
-            type="text"
-            name="website"
-            required
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            />
-        </div>
+            <label className="block mb-1 text-lg">Available facilities</label>
+        {["Toilets", "Free Wi-Fi"].map((val) => (
+          <label className="block text-medium">
+            <input
+              type="checkbox"
+              value={formData.facilities}
+              onChange={() => handleCheckboxChange("meals", val)}
+            />{" "}
+            {val}
+          </label>
+        ))}
+      </div>
 
-        {/* Image- Cloudinary URL */}
-        <label className="block mb-1 font-medium">Images</label>
-        <CloudinaryUploader />
 
-        {/* Google Maps URL */}
-        {/* TEXTBOX */}
-        <div>
-            <label className="block mb-1 font-medium">Google Maps URL</label>
-            <input 
-            type="text"
-            name="website"
-            required
-            value={formData.googleMapsUrl}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            />
-        </div>
-
+      
         {/* Submit Button */}
-        <button 
+        <div>
+          <button 
            type="submit"
-           className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+           className="w-20 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
            >
             Submit
            </button>
+
+      <p className="text-sm"><span className="text-red-500">*</span> Required field</p>
+      </div>
       </form>
+
 
       </div>
     )
