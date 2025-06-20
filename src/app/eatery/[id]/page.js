@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { apiClient } from "../../../../apiClient/apiClient";
+import { ApiClient} from "../../../../apiClient/apiClient";
+const apiClient = new ApiClient();
 
 import RestaurantDetails from "../../globalComponents/RestaurantDetails";
 import RestaurantMap from "../../globalComponents/RestaurantMap";
