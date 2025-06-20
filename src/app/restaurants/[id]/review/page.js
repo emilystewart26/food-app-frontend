@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { apiClient } from "../../../../../apiClient/apiClient";
+import { ApiClient } from "../../../../../apiClient/apiClient";
+const apiClient = new ApiClient();
 
 const ReactStars = dynamic(() => import("react-stars"), { ssr: false });
 

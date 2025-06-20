@@ -35,7 +35,8 @@ export default function BrowsePage() {
         (err) => reject(err)
       )
     );
-
+    
+  const apiClient = new ApiClient();
   const handleFilterChange = async (newFilters) => {
     let location = null;
 
@@ -46,7 +47,7 @@ export default function BrowsePage() {
     }
 
     const query = buildSearchParams(newFilters, location);
-    const apiClient = new ApiClient();
+    
     const response = await apiClient.getRestaurants(query);
     setRestaurants(response);
   };
