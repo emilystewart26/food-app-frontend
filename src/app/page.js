@@ -43,6 +43,8 @@ export default function Home() {
   const displayName = user?.username || user?.emailAddresses?.[0]?.emailAddress || "Guest";
 
   return (
+    <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
+      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
     <div className="h-screen container m-auto px-6 pt-10 md:px-12 lg:pt-10 lg:px-7">
       <div className="p-6">
         {isLoaded && isSignedIn && (
@@ -100,6 +102,7 @@ export default function Home() {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 }

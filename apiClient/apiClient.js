@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const url = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
 
@@ -58,18 +59,12 @@ export class ApiClient {
   }
 
   //POST
-
-  // ========== Favourite Methods ==========
-  async addToFavourites(restaurantId) {
-    return this.apiCall("post", `favourites/${restaurantId}`);
-  }
-
-  async removeFromFavourites(restaurantId) {
-    return this.apiCall("delete", `favourites/${restaurantId}`);
-  }
-
-
-  async addRestaurant(name, address, city, country /* review Restaurant Schema & check what needs to be listed here*/) {
+  async addRestaurant(
+    name,
+    address,
+    city,
+    country /* review Restaurant Schema & check what needs to be listed here*/
+  ) {
     return this.apiCall("post", "restaurants", {
       name,
       address,
@@ -80,7 +75,6 @@ export class ApiClient {
   }
 
   //PUT
-
   async updateRestaurant(id, address, postcode, city, country /*as above*/) {
     return this.apiCall("put", `restaurants/${id}`, {
       address,
@@ -91,45 +85,79 @@ export class ApiClient {
   }
 
   //DELETE
-
   async deleteRestaurant(id) {
     return this.apiCall("delete", `restaurants/${id}`);
   }
-  
 
-    // ========== Review Methods ==========
-  async submitReview(reviewData) {
-    return this.apiCall("post", "reviews", reviewData);
+  //== Review Methods==
+
+  //GET
+  async getReviews() {
+    const response = await this.apiCall("get", "reviews");
+    return response.data;
   }
 
+  async getReviewsById(id) {
+    const response = await this.apiCall("get", `reviews/${id}`);
+    return response.data;
+  }
+
+  async getReviewsByUserId(userId) {
+    const response = await this.apiCall("get", `reviews/userid/${userId}`);
+    return response.data;
+  }
+
+  async getReviewsByRestaurantId(restaurantId) {
+    const response = await this.apiCall(
+      "get",
+      `reviews/restaurantid/${restaurantId}`
+    );
+    return response.data;
+  }
+
+  // POST
+  async addReview(
+    foodReview,
+    foodStars,
+    ambienceReview,
+    ambienceStars,
+    serviceReview,
+    serviceStars,
+    locationReview,
+    locationStars,
+    userId,
+    restaurantId
+  ) {
+    const response = await this.apiCall("post", "reviews", {
+      foodReview,
+      foodStars,
+      ambienceReview,
+      ambienceStars,
+      serviceReview,
+      serviceStars,
+      locationReview,
+      locationStars,
+      userId,
+      restaurantId,
+    });
+    return response.data;
+  }
+
+  //==Favourites Methods==
+
+  //GET
+  async getFavourites() {
+    const response = await this.apiCall("get", "favourites");
+    return response.data;
+  }
+
+  //POST
+  async addToFavourites(restaurantId) {
+    return this.apiCall("post", `favourites/${restaurantId}`);
+  }
+
+  //DELETE
+  async removeFromFavourites(restaurantId) {
+    return this.apiCall("delete", `favourites/${restaurantId}`);
+  }
 }
-
-//=================== TODO:
-
-//    /reviews  = Review Routes
-// getReviews, "GET" "/"
-// getReviewsById, "GET" "/:id"
-// getReviewsByUserId, "GET" "/userid/:userId",
-// getReviewsByRestaurantId, "GET" "/restaurantid/:restaurantId"
-// addReview "POST" "/",    >>>>> TODO: double-check backend code - should this be by restaurant ID ???
-
-
-
-//     /users/favourites = Favourite Routes
-//  getFavourites  "GET"  "/"    >>>>>>>TODO: double-check backend code - should this be by user ID ???
-//  addToFavourites  "POST" "/:restaurantId"
-//  removeFromFavourites "DELETE"  ""/:restaurantId""
-
-
-
-
-
-
-
-
-
-// For dynamic updating of navbar
-export const apiClient = new ApiClient();
-
-
-

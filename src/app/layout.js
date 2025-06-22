@@ -27,8 +27,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">
         <body>
-        <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
-      style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
+        <div className="bg-[rgb(193,233,239)]">
         <Navbar />
       {children}
       <Footer />
