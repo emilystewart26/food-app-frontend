@@ -8,7 +8,9 @@ import { useSearchParams } from 'next/navigation';
 
 export default function BrowsePage() {
   const [restaurants, setRestaurants] = useState([]);
+  const [currentCity, setCurrentCity] = useState(""); // State to store the current city
   const searchParams = useSearchParams();
+
 
   const fetchCoordinates = async (city) => {
     const response = await fetch(
@@ -36,28 +38,37 @@ export default function BrowsePage() {
       )
     );
 
-  const handleFilterChange = async (newFilters) => {
-    let location = null;
+    const handleFilterChange = async (newFilters) => {
+      let location = null;
+  
+      // Use current city if no new city is specified
+      const city = newFilters.city || currentCity;
+  
+      if (newFilters.useCurrentLocation) {
+        location = await fetchUserLocation();
+      } else if (city) {
+        location = await fetchCoordinates(city);
+      }
+  
+      // Update current city if a new city is specified
+      if (newFilters.city) {
+        setCurrentCity(newFilters.city);
+      }
+  
+      const query = buildSearchParams(newFilters, location);
+      const apiClient = new ApiClient();
+      const response = await apiClient.getRestaurants(query);
+      setRestaurants(response);
+    };
 
-    if (newFilters.useCurrentLocation) {
-      location = await fetchUserLocation();
-    } else if (newFilters.city) {
-      location = await fetchCoordinates(newFilters.city);
-    }
-
-    const query = buildSearchParams(newFilters, location);
-    const apiClient = new ApiClient();
-    const response = await apiClient.getRestaurants(query);
-    setRestaurants(response);
-  };
-
-  // Auto-trigger on first load if ?city=London found
-  useEffect(() => {
-    const cityFromQuery = searchParams.get("city");
-    if (cityFromQuery) {
-      handleFilterChange({ city: cityFromQuery });
-    }
-  }, [searchParams]);
+// Auto-trigger on first load if ?city=London found
+useEffect(() => {
+  const cityFromQuery = searchParams.get("city");
+  if (cityFromQuery) {
+    setCurrentCity(cityFromQuery); // Set the initial city
+    handleFilterChange({ city: cityFromQuery });
+  }
+}, [searchParams]);
 
   return (
     <div className="flex">

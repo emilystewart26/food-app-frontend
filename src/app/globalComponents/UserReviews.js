@@ -5,10 +5,10 @@ export default function UserReviews() {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    const userId = localStorage.getItem("userId"); 
-
+  useEffect(() => { 
+    const token = localStorage.getItem("authToken"); // this may need to be revised after Clerk implementation
+    const userId = localStorage.getItem("userId");
+    
     if (!token || !userId) {
       setError("User not authenticated.");
       return;
