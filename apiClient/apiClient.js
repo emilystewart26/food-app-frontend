@@ -128,10 +128,9 @@ export class ApiClient {
 
   //==Restaurant Methods==
 
-  //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
-
+  //GET
   async getRestaurants(queryString) {
-    const response = await this.apiCall("get", `restaurants?${queryString}`);
+    const response = await this.apiCall("get", `restaurants?${queryString}`); //universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
     return response.data;
   }
 
@@ -146,16 +145,6 @@ export class ApiClient {
   }
 
   //POST
-
-  //Favourite Methods
-  async addToFavourites(restaurantId) {
-    return this.apiCall("post", `favourites/${restaurantId}`);
-  }
-
-  async removeFromFavourites(restaurantId) {
-    return this.apiCall("delete", `favourites/${restaurantId}`);
-  }
-
   async addRestaurant(
     name,
     address,
@@ -172,7 +161,6 @@ export class ApiClient {
   }
 
   //PUT
-
   async updateRestaurant(id, address, postcode, city, country /*as above*/) {
     return this.apiCall("put", `restaurants/${id}`, {
       address,
@@ -183,7 +171,6 @@ export class ApiClient {
   }
 
   //DELETE
-
   async deleteRestaurant(id) {
     return this.apiCall("delete", `restaurants/${id}`);
   }
@@ -191,7 +178,6 @@ export class ApiClient {
   //== Review Methods==
 
   //GET
-
   async getReviews() {
     const response = await this.apiCall("get", "reviews");
     return response.data;
@@ -243,50 +229,21 @@ export class ApiClient {
     return response.data;
   }
 
-  /* Not sure what this code is for, leftover from something else? */
-  async submitReview(reviewData) {
-    return this.apiCall("post", "reviews", reviewData);
+  //==Favourites Methods==
+
+  //GET
+  async getFavourites() {
+    const response = await this.apiCall("get", "favourites");
+    return response.data;
   }
 
-  /* No corresponding code in backend for PUT/DELETE yet */
+  //POST
+  async addToFavourites(restaurantId) {
+    return this.apiCall("post", `favourites/${restaurantId}`);
+  }
 
-  // //PUT
-
-  // async editReview(
-  //   foodReview,
-  //   foodStars,
-  //   ambienceReview,
-  //   ambienceStars,
-  //   serviceReview,
-  //   serviceStars,
-  //   locationReview,
-  //   locationStars,
-  //   userId,
-  //   restaurantId) {
-  //     return this.apiCall("put", `restaurants/${id}`, {
-  //        foodReview,
-  //     foodStars,
-  //     ambienceReview,
-  //     ambienceStars,
-  //     serviceReview,
-  //     serviceStars,
-  //     locationReview,
-  //     locationStars,
-  //     userId,
-  //     restaurantId
-  //     });
-  //   }
-
-  //   //DELETE
-
-  //   async deleteReview(id) {
-  //     return this.apiCall("delete", `reviews/${id}`);
-  //   }
+  //DELETE
+  async removeFromFavourites(restaurantId) {
+    return this.apiCall("delete", `favourites/${restaurantId}`);
+  }
 }
-
-//=================== TODO:
-
-//     /users/favourites = Favourite Routes
-//  getFavourites  "GET"  "/"    >>>>>>>TODO: double-check backend code - should this be by user ID ???
-//  addToFavourites  "POST" "/:restaurantId"
-//  removeFromFavourites "DELETE"  ""/:restaurantId""
