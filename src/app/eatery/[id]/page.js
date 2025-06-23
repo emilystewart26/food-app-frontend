@@ -14,6 +14,7 @@ import RestaurantReviews from "../../globalComponents/RestaurantReviews";
 
 export default function EateryPage() {
   const { id } = useParams();
+  console.log(id);
   const [restaurant, setRestaurant] = useState(null);
   const [error, setError] = useState("");
 
@@ -21,6 +22,7 @@ export default function EateryPage() {
     async function fetchRestaurant() {
       try {
         const data = await apiClient.getRestaurantById(id);
+        console.log(data)
         setRestaurant(data);
       } catch (err) {
         console.error("Error loading restaurant", err);
