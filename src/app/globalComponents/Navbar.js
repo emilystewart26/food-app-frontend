@@ -12,7 +12,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="block w-full max-w-screen-lg px-4 py-2 mx-auto bg-slate-500 shadow-xl rounded-lg lg:px-8 lg:py-3 backdrop-blur-sm bg-opacity-90">
+    <nav className="block w-full px-4 py-2 bg-slate-500 shadow-xl rounded-lg lg:px-8 lg:py-3 backdrop-blur-sm bg-opacity-90">
       <div className="flex items-center justify-between text-white">
         <a
           href="/"
