@@ -32,14 +32,13 @@ export class ApiClient {
       });
       return response.data;
     } catch (error) {
-      console.error("API error:", error?.response?.data || error.message);
+      //console.error("API error:", error?.response?.data || error.message);
       throw error;
     }
   }
 
 
   //Restaurant Methods
-  
   //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
   async getRestaurants(queryString) {
     const response = await this.apiCall("get", `restaurants?${queryString}`);
@@ -50,12 +49,12 @@ export class ApiClient {
 
   async getRestaurantById(id) {
     const response = await this.apiCall("get", `restaurants/${id}`);
-    return response.data;
+    return response
   }
 
   async getRestaurantsByUserId(userId) {
     const response = await this.apiCall("get", `restaurants/user/${userId}`);
-    return response.data;
+    return response
   }
 
   //POST
@@ -94,17 +93,17 @@ export class ApiClient {
   //GET
   async getReviews() {
     const response = await this.apiCall("get", "reviews");
-    return response.data;
+    return response
   }
 
   async getReviewsById(id) {
     const response = await this.apiCall("get", `reviews/${id}`);
-    return response.data;
+    return response
   }
 
   async getReviewsByUserId(userId) {
     const response = await this.apiCall("get", `reviews/userid/${userId}`);
-    return response.data;
+    return response
   }
 
   async getReviewsByRestaurantId(restaurantId) {
@@ -112,7 +111,7 @@ export class ApiClient {
       "get",
       `reviews/restaurantid/${restaurantId}`
     );
-    return response.data;
+    return response
   }
 
   // POST
@@ -140,7 +139,7 @@ export class ApiClient {
       userId,
       restaurantId,
     });
-    return response.data;
+    return response
   }
 
   //==Favourites Methods==
@@ -148,7 +147,7 @@ export class ApiClient {
   //GET
   async getFavourites() {
     const response = await this.apiCall("get", "favourites");
-    return response.data;
+    return response
   }
 
   //POST
