@@ -24,28 +24,30 @@ export class ApiClient {
   }
 
   async apiCall(method, path, data = {}) {
-    try {
-      const response = await this.axiosInstance({
-        method,
-        url: path,
-        data,
-      });
-      return response.data;
-    } catch (error) {
-      //console.error("API error:", error?.response?.data || error.message);
-      throw error;
-    }
+    console.log (`[apiCall] Method: ${method}, Path: ${path}, Data: ${JSON.stringify(data)}`);
+    console.log (`[apiCall] URL: ${process.env.NEXT_PUBLIC_API_BASE_URL}/${path}`);
+  try {
+    const response = await this.axiosInstance({
+      method,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/${path}`,
+      data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
   }
+}
 
 
   //Restaurant Methods
   //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
   async getRestaurants(queryString) {
-    const response = await this.apiCall("get", `restaurants?${queryString}`);
-    console.log(queryString);
-    console.log(response)
-    return response
-  }
+  const path = queryString ? `restaurants?${queryString}` : "restaurants";
+  const response = await this.apiCall("get", path);
+  console.log("[getRestaurants] Query:", queryString);
+  console.log("[getRestaurants] Response:", response);
+  return response;
+}
 
   async getRestaurantById(id) {
     const response = await this.apiCall("get", `restaurants/${id}`);

@@ -95,12 +95,13 @@ export default function CreateRestaurant() {
     };
 
     return  (
-        <div className="max-w-4xl mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-10 text-center">Create establishment page</h2>
+        <div className="max-w-4xl mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg text-slate-700">
+      <h2 className="text-2xl font-bold mb-10 text-center text-slate-700">Add establishment</h2>
+      <p className="mb-5 text-right pr-34 text-slate-700"><span className="text-red-500">*</span>indicates a required field</p>
 
       {/* <h3 className="block mb-1 font-bold text-xl mb-2">Details</h3> */}
 
-      <form onSubmit={handleSubmit} className="space-y-4  pl-20">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 justify-items-center space-y-6">
         {/* Name */}
         <div>
             <label className="block mb-1 text-lg">Name<span className="text-red-500">*</span></label>
@@ -110,7 +111,7 @@ export default function CreateRestaurant() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -123,7 +124,7 @@ export default function CreateRestaurant() {
             required
             value={formData.username}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -136,7 +137,7 @@ export default function CreateRestaurant() {
             required
             value={formData.postcode}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -149,7 +150,7 @@ export default function CreateRestaurant() {
             required
             value={formData.city}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -162,7 +163,7 @@ export default function CreateRestaurant() {
             required
             value={formData.country}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -175,7 +176,7 @@ export default function CreateRestaurant() {
             required
             value={formData.number}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -188,7 +189,7 @@ export default function CreateRestaurant() {
             required
             value={formData.website}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -199,10 +200,11 @@ export default function CreateRestaurant() {
             <input 
             type="text"
             name="tags"
+            placeholder="Eg. italian, coffee, cosy"
             required
             value={formData.tags}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -213,10 +215,11 @@ export default function CreateRestaurant() {
             <textarea 
             type="text"
             name="description"
+            placeholder="Describe your establishment..."
             required
             value={formData.description}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
+            className="px-4 py-2 w-xl border rounded"
             />
             {/* <form>
       <textarea value={textarea} onChange={handleChange} /> */}
@@ -224,8 +227,10 @@ export default function CreateRestaurant() {
 
 
         {/* Image- Cloudinary URL */}
-        <label className="block mb-1 text-lg">Images</label>
-        <CloudinaryUploader />
+        <div className="w-xl">
+          <label className="block mb-1 text-lg">Photos<span className="ml-5 text-sm">(Max. 10 photos)</span></label>
+          <CloudinaryUploader />
+        </div>
 
         {/* Google Maps URL */}
         {/* TEXTBOX */}
@@ -234,10 +239,11 @@ export default function CreateRestaurant() {
             <input 
             type="text"
             name="googleMapsUrl"
+            placeholder="https://maps.app.goo.gl/..."
             required
             value={formData.googleMapsUrl}
             onChange={handleChange}
-            className="py-2 px-4 w-md border rounded"
+            className="py-2 px-4 w-xl border rounded"
             />
         </div>
 
@@ -249,7 +255,7 @@ export default function CreateRestaurant() {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-md px-4 py-2 border rounded"
+            className="w-xl px-4 py-2 border rounded"
             >
                 <option value="">Select a category</option>
                 <option value="cafe">Café</option>
@@ -262,8 +268,8 @@ export default function CreateRestaurant() {
 
         {/* Meals */}
         {/* CHECKBOX */}
-        <div>
-            <label className="block mb-1 text-lg">Meals<span className="text-red-500">*</span></label>
+        <div class="w-xl">
+            <label className="block mb-1 text-lg text-left">Please select which meals your establishment serves:<span className="text-red-500">*</span></label>
         {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
           <label key={val} className="block text-medium">
             <input
@@ -279,8 +285,8 @@ export default function CreateRestaurant() {
 
         {/* Dietary */}
         {/* CHECKBOX */}
-        <div>
-            <label className="block mb-1 text-lg">Dietary restrictions</label>
+        <div class="w-xl">
+            <label className="block mb-1 text-lg">Does your establishment cater to any dietary restrictions?</label>
         {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
           <label key={val} className="block text-medium">
             <input
@@ -295,13 +301,13 @@ export default function CreateRestaurant() {
       </div>
 
         {/* Alcohol */}
-        <div>
+        <div class="w-xl">
             <label className="block mb-1 text-lg">Does your establishment serve alcohol?</label>
             <select
             name="alcohol"
             value={formData.alcohol}
             onChange={handleChange}
-            className="w-md px-4 py-2 border rounded"
+            className="w-xl px-4 py-2 border rounded"
             >
                 <option value="">Select an answer</option>
                 <option value="yes">Yes</option>
@@ -311,8 +317,8 @@ export default function CreateRestaurant() {
 
         {/* Welcomes */}
         {/* CHECKBOX */}
-        <div>
-            <label className="block mb-1 text-lg">Welcomes</label>
+        <div class="w-xl">
+            <label className="block mb-1 text-lg">Does your establishment welcome dogs and children?</label>
         {["Dogs", "Children"].map((val) => (
           <label key={val} className="block text-medium">
             <input
@@ -328,8 +334,8 @@ export default function CreateRestaurant() {
 
         {/* Facilities */}
         {/* CHECKBOX */}
-        <div>
-            <label className="block mb-1 text-lg">Available facilities</label>
+        <div class="w-xl">
+            <label className="block mb-1 text-lg">Does your establishment have the following facilities available?</label>
         {["Toilets", "Free Wi-Fi"].map((val) => (
           <label key={val} className="block text-medium">
             <input
@@ -349,12 +355,10 @@ export default function CreateRestaurant() {
         <div>
           <button 
            type="submit"
-           className="w-20 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+           className="text-xl rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 hover:cursor-pointer px-8 h-12 flex items-center justify-center overflow-hidden font-semibold text-white"
            >
             Submit
            </button>
-
-      <p className="text-sm"><span className="text-red-500">*</span> Required field</p>
       </div>
       </form>
 
