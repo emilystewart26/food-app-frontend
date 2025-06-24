@@ -2,22 +2,38 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
 
 export default function UserFavourites() {
   const [favourites, setFavourites] = useState([]);
+  const { getToken } = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const fetchFavourites = async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
 
-    axios
-      .get("http://localhost:3001/api/favourites", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => setFavourites(res.data.favourites))
-      .catch((err) => console.error("Failed to fetch favourites", err));
-  }, []);
+        const res = await axios.get("http://localhost:3001/api/favourites", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setFavourites(res.data.favourites || []);
+      } catch (err) {
+        console.error("Failed to fetch favourites", err);
+      }
+    };
+
+    fetchFavourites();
+
+    // Listen to the event when user toggles favourites
+    const onFavUpdated = () => fetchFavourites();
+    window.addEventListener("favouritesUpdated", onFavUpdated);
+
+    return () => window.removeEventListener("favouritesUpdated", onFavUpdated);
+  }, [getToken]);
 
   return (
     <div className="bg-white p-4 rounded shadow mb-6">
