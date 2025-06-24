@@ -7,9 +7,7 @@ export default function RestaurantCard({ restaurant }) {
   const distanceKmRounded = Math.round(distanceKm * 10) / 10;
   const distanceAvailable = typeof restaurant.distance === "number" && !Number.isNaN(distanceKmRounded);
 
-  const fallbackImages = ["https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1667388969250-1c7220bf3f37?q=80&w=1210&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-, "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-];
+  const fallbackImages = ["https://res.cloudinary.com/dx9lz1em1/image/upload/v1750778164/bohoe0ehigjbfrt5twxq.jpg", "https://res.cloudinary.com/dx9lz1em1/image/upload/v1750778158/kk6tlpiirvkaxnx1eph3.jpg"];
   const randomFallback = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
   const imageUrl = Array.isArray(restaurant.imageUrl) && restaurant.imageUrl.length > 0 ? restaurant.imageUrl[0] : randomFallback;
 
