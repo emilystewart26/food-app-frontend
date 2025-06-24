@@ -35,6 +35,21 @@ export default function CreateRestaurant() {
         });
     };
 
+    const handleCheckboxChange = () => {
+
+    };
+
+  //    handleCheckboxChange = changeEvent => {
+  //   const { name } = changeEvent.target;
+
+  //   this.setState(prevState => ({
+  //     checkboxes: {
+  //       ...prevState.checkboxes,
+  //       [name]: !prevState.checkboxes[name]
+  //     }
+  //   }));
+  // };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -250,11 +265,12 @@ export default function CreateRestaurant() {
         <div>
             <label className="block mb-1 text-lg">Meals<span className="text-red-500">*</span></label>
         {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
-          <label className="block text-medium">
+          <label key={val} className="block text-medium">
             <input
               type="checkbox"
-              value={formData.meals}
+              // value={formData.meals}
               onChange={() => handleCheckboxChange("meals", val)}
+              checked={formData.meals.includes(val)}
             />{" "}
             {val}
           </label>
@@ -266,11 +282,12 @@ export default function CreateRestaurant() {
         <div>
             <label className="block mb-1 text-lg">Dietary restrictions</label>
         {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
-          <label className="block text-medium">
+          <label key={val} className="block text-medium">
             <input
               type="checkbox"
-              value={formData.dietary}
-              onChange={() => handleCheckboxChange("meals", val)}
+              // value={formData.dietary}
+              onChange={() => handleCheckboxChange("dietary", val)}
+              checked={formData.dietary.includes(val)}
             />{" "}
             {val}
           </label>
@@ -297,11 +314,12 @@ export default function CreateRestaurant() {
         <div>
             <label className="block mb-1 text-lg">Welcomes</label>
         {["Dogs", "Children"].map((val) => (
-          <label className="block text-medium">
+          <label key={val} className="block text-medium">
             <input
               type="checkbox"
-              value={formData.welcomes}
-              onChange={() => handleCheckboxChange("meals", val)}
+              // value={formData.welcomes}
+              onChange={() => handleCheckboxChange("welcomes", val)}
+              checked={formData.welcomes.includes(val)}
             />{" "}
             {val}
           </label>
@@ -313,11 +331,12 @@ export default function CreateRestaurant() {
         <div>
             <label className="block mb-1 text-lg">Available facilities</label>
         {["Toilets", "Free Wi-Fi"].map((val) => (
-          <label className="block text-medium">
+          <label key={val} className="block text-medium">
             <input
               type="checkbox"
-              value={formData.facilities}
-              onChange={() => handleCheckboxChange("meals", val)}
+              // value={formData.facilities}
+              onChange={() => handleCheckboxChange("facilities", val)}
+              checked={formData.facilities.includes(val)}
             />{" "}
             {val}
           </label>
