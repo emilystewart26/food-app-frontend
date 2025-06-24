@@ -268,7 +268,7 @@ export default function CreateRestaurant() {
 
         {/* Meals */}
         {/* CHECKBOX */}
-        <div class="w-xl">
+        <div className="w-xl">
             <label className="block mb-1 text-lg text-left">Please select which meals your establishment serves:<span className="text-red-500">*</span></label>
         {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
           <label key={val} className="block text-medium">
@@ -285,7 +285,7 @@ export default function CreateRestaurant() {
 
         {/* Dietary */}
         {/* CHECKBOX */}
-        <div class="w-xl">
+        <div className="w-xl">
             <label className="block mb-1 text-lg">Does your establishment cater to any dietary restrictions?</label>
         {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
           <label key={val} className="block text-medium">
@@ -301,7 +301,7 @@ export default function CreateRestaurant() {
       </div>
 
         {/* Alcohol */}
-        <div class="w-xl">
+        <div className="w-xl">
             <label className="block mb-1 text-lg">Does your establishment serve alcohol?</label>
             <select
             name="alcohol"
@@ -317,7 +317,7 @@ export default function CreateRestaurant() {
 
         {/* Welcomes */}
         {/* CHECKBOX */}
-        <div class="w-xl">
+        <div className="w-xl">
             <label className="block mb-1 text-lg">Does your establishment welcome dogs and children?</label>
         {["Dogs", "Children"].map((val) => (
           <label key={val} className="block text-medium">
@@ -334,7 +334,7 @@ export default function CreateRestaurant() {
 
         {/* Facilities */}
         {/* CHECKBOX */}
-        <div class="w-xl">
+        <div className="w-xl">
             <label className="block mb-1 text-lg">Does your establishment have the following facilities available?</label>
         {["Toilets", "Free Wi-Fi"].map((val) => (
           <label key={val} className="block text-medium">
