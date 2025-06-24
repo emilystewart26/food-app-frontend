@@ -12,11 +12,14 @@ export default function CreateRestaurant() {
         telephone: '',
         website: '',
         category: '',
-        meals: '',
-        dietary: '',
         alcohol: '',
-        welcomes: '',
-        facilities: '',
+        checkboxes: {
+  meals: [],
+  dietary: [],
+  welcomes: [],
+  facilities: [],
+},
+
         tags: '',
         description: '',
         imageUrl: '',
@@ -35,24 +38,29 @@ export default function CreateRestaurant() {
         });
     };
 
-    const handleCheckboxChange = () => {
+    
+    const handleCheckboxChange = (category, value) => {
+  setFormData((prevFormData) => {
+    const currentValues = prevFormData.checkboxes[category];
+    const newValues = currentValues.includes(value)
+      ? currentValues.filter((item) => item !== value)
+      : [...currentValues, value];
 
+    return {
+      ...prevFormData,
+      checkboxes: {
+        ...prevFormData.checkboxes,
+        [category]: newValues,
+      },
     };
+  });
+};
 
-  //    handleCheckboxChange = changeEvent => {
-  //   const { name } = changeEvent.target;
 
-  //   this.setState(prevState => ({
-  //     checkboxes: {
-  //       ...prevState.checkboxes,
-  //       [name]: !prevState.checkboxes[name]
-  //     }
-  //   }));
-  // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+console.log (formData)
         if (formData.name === '') {
             setErrorMessage('Please enter a name before submitting.');
             setSuccessMessage('');
@@ -92,6 +100,9 @@ export default function CreateRestaurant() {
         console.log(formData);
         setErrorMessage('');
         setSuccessMessage('Establishment page submitted!')
+
+        // send the form data to an endpoint. 
+        // you can use the apiClient file like with the other endpoints 
     };
 
     return  (
@@ -268,37 +279,39 @@ export default function CreateRestaurant() {
 
         {/* Meals */}
         {/* CHECKBOX */}
-        <div className="w-xl">
-            <label className="block mb-1 text-lg text-left">Please select which meals your establishment serves:<span className="text-red-500">*</span></label>
-        {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
-          <label key={val} className="block text-medium">
-            <input
-              type="checkbox"
-              // value={formData.meals}
-              onChange={() => handleCheckboxChange("meals", val)}
-              checked={formData.meals.includes(val)}
-            />{" "}
-            {val}
-          </label>
-        ))}
-      </div>
+<div className="w-xl">
+  <label className="block mb-1 text-lg text-left">
+    Please select which meals your establishment serves:
+    <span className="text-red-500">*</span>
+  </label>
+  {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
+    <label key={val} className="block text-medium">
+      <input
+        type="checkbox"
+        onChange={() => handleCheckboxChange("meals", val)}
+        checked={formData.checkboxes.meals.includes(val)}
+      />{" "}
+      {val}
+    </label>
+  ))}
+</div>
 
-        {/* Dietary */}
-        {/* CHECKBOX */}
-        <div className="w-xl">
-            <label className="block mb-1 text-lg">Does your establishment cater to any dietary restrictions?</label>
-        {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
-          <label key={val} className="block text-medium">
-            <input
-              type="checkbox"
-              // value={formData.dietary}
-              onChange={() => handleCheckboxChange("dietary", val)}
-              checked={formData.dietary.includes(val)}
-            />{" "}
-            {val}
-          </label>
-        ))}
-      </div>
+
+
+<div className="w-xl">
+  <label className="block mb-1 text-lg">Does your establishment cater to any dietary restrictions?</label>
+  {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
+    <label key={val} className="block text-medium">
+      <input
+        type="checkbox"
+        onChange={() => handleCheckboxChange("dietary", val)}
+        checked={formData.checkboxes.dietary.includes(val)}
+      />{" "}
+      {val}
+    </label>
+  ))}
+</div>
+
 
         {/* Alcohol */}
         <div className="w-xl">
@@ -315,39 +328,37 @@ export default function CreateRestaurant() {
             </select>
         </div>
 
-        {/* Welcomes */}
-        {/* CHECKBOX */}
-        <div className="w-xl">
-            <label className="block mb-1 text-lg">Does your establishment welcome dogs and children?</label>
-        {["Dogs", "Children"].map((val) => (
-          <label key={val} className="block text-medium">
-            <input
-              type="checkbox"
-              // value={formData.welcomes}
-              onChange={() => handleCheckboxChange("welcomes", val)}
-              checked={formData.welcomes.includes(val)}
-            />{" "}
-            {val}
-          </label>
-        ))}
-      </div>
+<div className="w-xl">
+  <label className="block mb-1 text-lg">Does your establishment welcome dogs and children?</label>
+  {["Dogs", "Children"].map((val) => (
+    <label key={val} className="block text-medium">
+      <input
+        type="checkbox"
+        onChange={() => handleCheckboxChange("welcomes", val)}
+        checked={formData.checkboxes.welcomes.includes(val)}
+      />{" "}
+      {val}
+    </label>
+  ))}
+</div>
+
 
         {/* Facilities */}
         {/* CHECKBOX */}
         <div className="w-xl">
-            <label className="block mb-1 text-lg">Does your establishment have the following facilities available?</label>
-        {["Toilets", "Free Wi-Fi"].map((val) => (
-          <label key={val} className="block text-medium">
-            <input
-              type="checkbox"
-              // value={formData.facilities}
-              onChange={() => handleCheckboxChange("facilities", val)}
-              checked={formData.facilities.includes(val)}
-            />{" "}
-            {val}
-          </label>
-        ))}
-      </div>
+  <label className="block mb-1 text-lg">Does your establishment have the following facilities available?</label>
+  {["Toilets", "Free Wi-Fi"].map((val) => (
+    <label key={val} className="block text-medium">
+      <input
+        type="checkbox"
+        onChange={() => handleCheckboxChange("facilities", val)}
+        checked={formData.checkboxes.facilities.includes(val)}
+      />{" "}
+      {val}
+    </label>
+  ))}
+</div>
+
 
 
       
