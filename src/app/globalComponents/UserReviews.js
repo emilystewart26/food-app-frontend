@@ -51,7 +51,8 @@ export default function UserReviews() {
   }, [getToken]);
 
   return (
-    <div className="bg-white p-4 rounded shadow mb-6">
+    <div className="bg-white p-4 rounded shadow mb-6 text-slate-700">
+      <h2 className="text-xl font-semibold mb-2">Your Reviews</h2>
       {error && <p className="text-red-500">{error}</p>}
       {reviews.length === 0 ? (
         <p>You haven't written any reviews yet.</p>
