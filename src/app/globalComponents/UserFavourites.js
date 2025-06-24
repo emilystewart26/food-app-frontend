@@ -20,7 +20,8 @@ export default function UserFavourites() {
   }, []);
 
   return (
-    <div className="bg-white p-4 rounded shadow mb-6">
+    <div className="bg-white p-4 rounded shadow mb-6 text-slate-700">
+      <h2 className="text-xl font-semibold mb-2">Your Favourites</h2>
       {favourites.length === 0 ? (
         <p>No favourites yet.</p>
       ) : (
