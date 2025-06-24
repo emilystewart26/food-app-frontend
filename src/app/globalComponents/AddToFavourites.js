@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs"; // Clerk authentication hook
+import { useAuth } from "@clerk/nextjs"; // Clerk auth hook
 
 export default function AddToFavourites({ restaurantId }) {
   const [isFavourite, setIsFavourite] = useState(false);
   const { getToken } = useAuth();
 
+  // Check if this restaurant is already in favourites
   useEffect(() => {
     const checkFavourite = async () => {
       try {
@@ -18,15 +19,15 @@ export default function AddToFavourites({ restaurantId }) {
           headers: { Authorization: `Bearer ${token}` },
         };
 
+       
         const res = await axios.get(
-          "http://localhost:3001/api/users/favourites",
+          "http://localhost:3001/api/favourites",
           config
         );
 
-        // Safely extract favourites array
-        const favourites = Array.isArray(res.data)
-          ? res.data
-          : res.data.favourites || [];
+        const favourites = Array.isArray(res.data.favourites)
+          ? res.data.favourites
+          : [];
 
         const found = favourites.some(
           (fav) =>
@@ -41,6 +42,7 @@ export default function AddToFavourites({ restaurantId }) {
     checkFavourite();
   }, [restaurantId, getToken]);
 
+  //  Toggle favourite on button click
   const handleToggleFavourite = async () => {
     try {
       const token = await getToken();
@@ -50,18 +52,14 @@ export default function AddToFavourites({ restaurantId }) {
         headers: { Authorization: `Bearer ${token}` },
       };
 
+      
+      const url = `http://localhost:3001/api/favourites/${restaurantId}`;
+
       if (isFavourite) {
-        await axios.delete(
-          `http://localhost:3001/api/users/favourites/${restaurantId}`,
-          config
-        );
+        await axios.delete(url, config);
         setIsFavourite(false);
       } else {
-        await axios.post(
-          `http://localhost:3001/api/users/favourites/${restaurantId}`,
-          {},
-          config
-        );
+        await axios.post(url, {}, config);
         setIsFavourite(true);
       }
     } catch (error) {
