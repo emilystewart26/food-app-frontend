@@ -15,12 +15,19 @@ export default function Home() {
   
 
   // One-time sync logic after sign-in
-  useEffect(() => {
+    useEffect(() => {
     if (!isSignedIn || !user || !apiClient) return;
+
+    const role = user.publicMetadata?.role;
+    const setupComplete = user.publicMetadata?.setupComplete;
+
+    if (!role && !setupComplete) {
+      router.replace("/complete-profile");
+      return;
+    }
 
     const syncClerkUser = async () => {
       try {
-        const role = localStorage.getItem("selectedRole") || "user";
         const res = await apiClient.apiCall("post", "users/clerk/sync", { role });
         setSyncStatus(res.message || "Sync complete");
       } catch (err) {
@@ -28,9 +35,8 @@ export default function Home() {
         setSyncStatus("Clerk sync failed");
       }
     };
-
     syncClerkUser();
-  }, [isSignedIn, user, apiClient]);
+  }, [isSignedIn, user, apiClient,router]); 
 
 
   const handleSubmit = (e) => {
