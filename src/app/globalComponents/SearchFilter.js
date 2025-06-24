@@ -34,17 +34,17 @@ export default function SearchFilter({ onFilterChange }) {
   };
 
   return (
-    <div className="p-4  w-64 space-y-4 bg-white/50">
+    <div className="p-4 w-64 space-y-4 bg-white/50 border rounded-lg">
       <div>
       <div>
-        <p className="mb-1">Search by City</p>
+        <p className="mt-5 mb-1">Search by City</p>
         <input
           type="text"
           name="city"
           value={filters.city}
           onChange={handleInputChange}
           disabled={filters.useCurrentLocation}
-          className="w-full border px-2 py-1 rounded"
+          className="w-full border px-2 py-1 rounded bg-white/60"
           placeholder="City..."
         />
         <label className="block mt-1 text-sm">
@@ -64,7 +64,7 @@ export default function SearchFilter({ onFilterChange }) {
           name="radius"
           value={filters.radius}
           onChange={handleInputChange}
-          className="w-full border px-2 py-1 rounded"
+          className="w-full border px-2 py-1 rounded bg-white/60"
         >
           <option className="text-sm" value="1000">1 km</option>
           <option className="text-sm" value="3000">3 km</option>

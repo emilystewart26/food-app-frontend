@@ -73,7 +73,7 @@ useEffect(() => {
 }, [searchParams]);
 
   return (
-    <div className="flex bg-[rgb(193,233,239)] h-screen">
+    <div className="flex bg-[rgb(193,233,239)] h-screen my-6">
       <SearchFilter onFilterChange={handleFilterChange} />
       <div className="grid grid-cols-3 gap-4 p-4 flex-grow">
         {restaurants.length === 0 ? (
