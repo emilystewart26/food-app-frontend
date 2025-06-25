@@ -7,7 +7,7 @@ export default function ClerkLogin() {
       <SignIn
         appearance={{elements: {card: "shadow-lg p-6 rounded-lg",},}}
         path="/login"
-        afterSignInUrl="/" // deprecated - NEED TO FIND OUT HOW TO REPLACE !!!
+        fallbackRedirectUrl="/" 
         signUpUrl="/register" 
       />
     </div>

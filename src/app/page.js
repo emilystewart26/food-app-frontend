@@ -52,14 +52,14 @@ export default function Home() {
     <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
       style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
     <div className="h-screen container m-auto px-6 pt-10 md:px-12 lg:pt-10 lg:px-7">
-      <div className="p-6">
+      <div className="p-6">     
         {isLoaded && isSignedIn && (
           <>
-            <h1 className="text-xl font-semibold mb-2 text-slate-600">
+            <h1 className="text-xl font-semibold mb-2 text-slate-700">
               Welcome, {displayName}
             </h1>
             {syncStatus && (
-              <p className="text-sm text-gray-500">{syncStatus}</p>
+              <p className="text-sm text-slate-600">{syncStatus}</p>
             )}
           </>
         )}

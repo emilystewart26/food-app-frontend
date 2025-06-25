@@ -60,14 +60,14 @@ return (
   <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
            style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
       <div className="flex flex-col items-center mt-10 min-h-screen px-4">
-    <h2 className="text-xl font-bold mb-4">Complete your profile</h2>
+    <h2 className="text-xl font-bold mb-4">One more step to complete your profile</h2>
     
-    <form onSubmit={handleSubmit}>
-      <label className="block mb-2">Choose your role:</label>
+    <form onSubmit={handleSubmit} className="my-4">
+      <label className="block mb-2">Please choose your role:</label>
       <select
         value={selectedRole}
         onChange={(e) => setSelectedRole(e.target.value)}
-        className="w-full border rounded-md pr-10 py-2 mb-5 bg-slate-500 text-white"
+        className="w-full border rounded-md pr-10 pl-3 py-3 mb-5 bg-slate-600 text-white"
         required
       >
         <option value="">Select a role</option>
@@ -85,16 +85,16 @@ return (
     </form>
 
     {isSubmitting && (
-  <div className="fixed inset-0 bg-[rgb(193,233,239) bg-opacity-60 flex items-center justify-center z-50">
+  <div className="fixed inset-0 bg-[rgb(193,233,239) bg-opacity-50 flex items-center justify-center z-50">
     <div className="text-xl font-medium">Finishing setup...</div>
   </div>
     )}
 
     {errorMsg && (
-        <p className="text-red-500 mt-4">{errorMsg}</p>
+        <p className="text-amber-700 mt-6">{errorMsg}</p>
       )}
       {successMsg && (
-        <p className="text-green-600 mt-4">{successMsg}</p>
+        <p className="text-green-700 mt-6">{successMsg}</p>
       )}
 
     </div>

@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-//import ClerkLogin from "../globalComponents/ClerkLogin";
-import dynamic from 'next/dynamic';
-const ClerkLogin = dynamic(() => import('../../globalComponents/ClerkLogin'), { ssr: false });
+import ClerkLogin from "../../globalComponents/ClerkLogin";
+//import dynamic from 'next/dynamic';
+//const ClerkLogin = dynamic(() => import('../../globalComponents/ClerkLogin'), { ssr: false });
 
 
 export default function LoginPage() {
