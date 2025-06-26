@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
    <footer className="block flex justify-center px-2 py-2 mx-auto text-white bg-slate-500">
-    <p>Copyright &copy; 2025 FoodApp&trade; | All Rights Reserved.</p>
+    <p>Copyright &copy; 2025 IndieEatsLocal&trade; | All Rights Reserved.</p>
 </footer>
   );
 };

@@ -9,6 +9,12 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
+import { Peralta } from "next/font/google";
+
+const peraltaFont = Peralta({
+  subsets: ["latin"],
+  weight: "400"
+});
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,10 +52,13 @@ const Navbar = () => {
 
   return (
     <nav className="block w-full px-4 py-2 bg-slate-500 shadow-xl rounded-lg lg:px-8 lg:py-3 backdrop-blur-sm bg-opacity-90">
-      <div className="flex items-center justify-between text-white">
-        <a href="/" className="block cursor-pointer py-1.5 text-2xl font-semibold">
-          Food App
+      <div className="flex items-center text-white justify-between">
+        <div className="flex justify-start space-x-6 items-center">
+        <img src="https://res.cloudinary.com/dx9lz1em1/image/upload/v1750951807/jig47m5szivnyyhod7w1.png" alt="IndieEatsLocal logo" />
+        <a href="/" className={`block cursor-pointer py-1.5 text-2xl ${peraltaFont.className}`}>
+           IndieEatsLocal
         </a>
+        </div>
 
         {/* Mobile Menu Toggle */}
         <button
