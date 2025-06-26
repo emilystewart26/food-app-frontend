@@ -19,13 +19,18 @@ const Navbar = () => {
   const role = user?.publicMetadata?.role || "user";
 
   const canView = {
-    dashboard: role === "user" || role === "admin",
-    create: role === "vendor" || role === "admin",
-    browse: true,
+    dashboard: isSignedIn && (role === "user" || role === "admin"),
+    create: isSignedIn && (role === "vendor" || role === "admin"),
+    browse: true, // always show browse
   };
 
   const renderLinks = () => (
     <>
+      {canView.browse && (
+        <li>
+          <a href="/browse" className="text-md hover:text-lg duration-300">Browse</a>
+        </li>
+      )}
       {canView.dashboard && (
         <li>
           <a href="/dashboard" className="text-md hover:text-lg duration-300">Dashboard</a>
@@ -34,11 +39,6 @@ const Navbar = () => {
       {canView.create && (
         <li>
           <a href="/create" className="text-md hover:text-lg duration-300">Create</a>
-        </li>
-      )}
-      {canView.browse && (
-        <li>
-          <a href="/browse" className="text-md hover:text-lg duration-300">Browse</a>
         </li>
       )}
     </>
@@ -64,7 +64,7 @@ const Navbar = () => {
         <div className="hidden lg:block">
           <ul className="flex flex-row items-center gap-6">
             {renderLinks()}
-            <SignedOut>
+            {!isSignedIn && (
               <li>
                 <a
                   href="/login"
@@ -73,17 +73,19 @@ const Navbar = () => {
                   Login
                 </a>
               </li>
-            </SignedOut>
-            <SignedIn>
-              <li>
-                <SignOutButton>
-                  <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center font-semibold text-white hover:cursor-pointer">
-                    Sign Out
-                  </button>
-                </SignOutButton>
-              </li>
-              <li><UserButton afterSignOutUrl="/" /></li>
-            </SignedIn>
+            )}
+            {isSignedIn && (
+              <>
+                <li>
+                  <SignOutButton>
+                    <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center font-semibold text-white hover:cursor-pointer">
+                      Sign Out
+                    </button>
+                  </SignOutButton>
+                </li>
+                <li><UserButton afterSignOutUrl="/" /></li>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -93,7 +95,7 @@ const Navbar = () => {
         <div className="lg:hidden mt-4">
           <ul className="flex flex-col gap-4 text-white">
             {renderLinks()}
-            <SignedOut>
+            {!isSignedIn && (
               <li>
                 <a
                   href="/login"
@@ -102,17 +104,19 @@ const Navbar = () => {
                   Login
                 </a>
               </li>
-            </SignedOut>
-            <SignedIn>
-              <li>
-                <SignOutButton>
-                  <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center justify-center font-semibold text-white hover:cursor-pointer">
-                    Sign Out
-                  </button>
-                </SignOutButton>
-              </li>
-              <li><UserButton afterSignOutUrl="/" /></li>
-            </SignedIn>
+            )}
+            {isSignedIn && (
+              <>
+                <li>
+                  <SignOutButton>
+                    <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center justify-center font-semibold text-white hover:cursor-pointer">
+                      Sign Out
+                    </button>
+                  </SignOutButton>
+                </li>
+                <li><UserButton afterSignOutUrl="/" /></li>
+              </>
+            )}
           </ul>
         </div>
       )}
