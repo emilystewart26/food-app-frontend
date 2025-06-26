@@ -1,20 +1,41 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-import { Cloudinary } from "@cloudinary/url-gen";
+import React, { useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+//import { Cloudinary } from "@cloudinary/url-gen";
 import CreateRestaurant from "../globalComponents/CreateRestaurant";
 
-const cld = new Cloudinary({ cloud: { cloudName: process.env.dx9lz1em1 } });
 
 export default function CreateRestaurantPage() {
+  const { user, isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
+  // const cld = new Cloudinary({ cloud: { cloudName: process.env.dx9lz1em1 } });
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    // If not signed in, redirect to login
+    if (!isSignedIn) {
+      router.replace("/login");
+      return;
+    }
+
+// If role is not vendor or admin, redirect
+const role = user?.publicMetadata?.role;
+if (!["vendor", "admin"].includes(role)) {
+  router.replace("/unauthorized"); // You can show a message here
+}
+}, [isLoaded, isSignedIn, user, router]);
+
+if (!isSignedIn || !["vendor", "admin"].includes(user?.publicMetadata?.role)) {
+return null; // Don't flash the form during redirection
+}
+
+
   return (
     <div className="flex-row content-start text-black space-x-4 mb-10">
-      {/* <h1 className="p-4 m-4 text-2xl font-bold text-slate-600">
-        Create a page for your establishment
-      </h1> */}
-      <CreateRestaurant />
-
-      
+      <CreateRestaurant />  
     </div>
   );
 }
