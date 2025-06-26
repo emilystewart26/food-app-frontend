@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs"; // Clerk auth hook
+import { useAuth } from "@clerk/nextjs";
 
 export default function AddToFavourites({ restaurantId }) {
   const [isFavourite, setIsFavourite] = useState(false);
@@ -19,9 +19,7 @@ export default function AddToFavourites({ restaurantId }) {
           headers: { Authorization: `Bearer ${token}` },
         };
 
-       
-        const res = await axios.get(
-          "http://localhost:3001/api/favourites",
+       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/favourites`,
           config
         );
 
@@ -53,7 +51,7 @@ export default function AddToFavourites({ restaurantId }) {
       };
 
       
-      const url = `http://localhost:3001/api/favourites/${restaurantId}`;
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/favourites/${restaurantId}`;
 
       if (isFavourite) {
         await axios.delete(url, config);
