@@ -59,15 +59,15 @@ export default function CompleteProfile() {
 return (
   <div className="h-screen bg-cover bg-center bg-no-repeat bg-object-bottom"
            style={{ backgroundImage: "url('/images/backdrop.jpg')" }}>
-      <div className="flex flex-col items-center mt-10 min-h-screen px-4">
-    <h2 className="text-xl font-bold mb-4">One more step to complete your profile</h2>
+      <div className="max-w-xl mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg text-slate-700">
+    <h2 className="text-xl font-bold mb-4">One more step to complete your profile...</h2>
     
     <form onSubmit={handleSubmit} className="my-4">
       <label className="block mb-2">Please choose your role:</label>
       <select
         value={selectedRole}
         onChange={(e) => setSelectedRole(e.target.value)}
-        className="w-full border rounded-md pr-10 pl-3 py-3 mb-5 bg-slate-600 text-white"
+        className="w-full border rounded-md pr-10 pl-3 py-3 mb-5"
         required
       >
         <option value="">Select a role</option>
@@ -78,7 +78,7 @@ return (
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-amber-600 text-white px-4 py-2 rounded"
+        className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-10 flex items-center font-semibold text-white hover:cursor-pointer"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
       </button>
