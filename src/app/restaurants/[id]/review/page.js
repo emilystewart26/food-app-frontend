@@ -35,7 +35,7 @@ export default function ReviewPage() {
 
     try {
     
-      await apiClient.submitReview({ ...formData, restaurantId: id });
+      await apiClient.addReview({ ...formData, restaurantId: id });
 
       alert("Review submitted!");
       router.push(`/restaurants/${id}`);
