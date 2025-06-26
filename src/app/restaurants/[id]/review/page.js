@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { ApiClient } from "../../../../../apiClient/apiClient";
-const apiClient = new ApiClient();
+import { useAuth } from "@clerk/nextjs";
+
 
 const ReactStars = dynamic(() => import("react-stars"), { ssr: false });
 
 export default function ReviewPage() {
   const { id } = useParams(); // Restaurant ID from the route
+  const { getToken } = useAuth(); 
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -21,7 +23,7 @@ export default function ReviewPage() {
     serviceStars: 0,
     locationReview: "",
     locationStars: 0,
-    restaurantId: "", 
+    
   });
 
   useEffect(() => {
@@ -30,20 +32,40 @@ export default function ReviewPage() {
     }
   }, [id]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-    
-      await apiClient.addReview({ ...formData, restaurantId: id });
+  try {
+    const token = await getToken();
+    const syncRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/clerk/sync`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          credentials: 'include',  
+        },
+      }
+    );
+    const dbUser = await syncRes.json();
 
-      alert("Review submitted!");
-      router.push(`/restaurants/${id}`);
-    } catch (err) {
-      console.error("Review submission failed:", err);
-      alert("Failed to submit review.");
-    }
-  };
+    const apiClient = new ApiClient(token);
+    await apiClient.addReview({
+      ...formData,
+      userId: dbUser._id,
+      restaurantId: id,
+    });
+
+    alert("Review submitted!");
+    router.push(`/restaurants/${id}`);
+  } catch (err) {
+    console.error("Review submission failed:", err);
+    alert("Failed to submit review.");
+  }
+};
+
+
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4">
