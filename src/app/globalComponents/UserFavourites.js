@@ -14,7 +14,7 @@ export default function UserFavourites() {
         const token = await getToken();
         if (!token) return;
 
-        const res = await axios.get("http://localhost:3001/api/favourites", {
+        const res = await axios.get("https://food-app-backend-xhqh.onrender.com/api/favourites", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

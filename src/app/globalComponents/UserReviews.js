@@ -18,7 +18,7 @@ export default function UserReviews() {
 
         //  Sync with backend to get MongoDB user ID
         const syncRes = await axios.post(
-          "http://localhost:3001/api/users/clerk/sync",
+          "https://food-app-backend-xhqh.onrender.com/api/users/clerk/sync",
           {},
           {
             headers: {
@@ -32,7 +32,7 @@ export default function UserReviews() {
 
         //  fetch reviews by userId
         const reviewsRes = await axios.get(
-          `http://localhost:3001/api/reviews/userid/${dbUserId}`,
+          `https://food-app-backend-xhqh.onrender.com/api/reviews/userid/${dbUserId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

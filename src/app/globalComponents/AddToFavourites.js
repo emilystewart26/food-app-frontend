@@ -21,7 +21,7 @@ export default function AddToFavourites({ restaurantId }) {
 
        
         const res = await axios.get(
-          "http://localhost:3001/api/favourites",
+          "https://food-app-backend-xhqh.onrender.com/api/favourites",
           config
         );
 
@@ -53,7 +53,7 @@ export default function AddToFavourites({ restaurantId }) {
       };
 
       
-      const url = `http://localhost:3001/api/favourites/${restaurantId}`;
+      const url = `https://food-app-backend-xhqh.onrender.com/api/favourites/${restaurantId}`;
 
       if (isFavourite) {
         await axios.delete(url, config);
