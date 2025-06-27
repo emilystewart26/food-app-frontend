@@ -24,14 +24,13 @@ export default function CreateRestaurantPage() {
 // If role is not vendor or admin, redirect
 const role = user?.publicMetadata?.role;
 if (!["vendor", "admin"].includes(role)) {
-  router.replace("/unauthorized"); // You can show a message here
+  router.replace("/unauthorized"); 
 }
 }, [isLoaded, isSignedIn, user, router]);
 
 if (!isSignedIn || !["vendor", "admin"].includes(user?.publicMetadata?.role)) {
-return null; // Don't flash the form during redirection
+return null; 
 }
-
 
   return (
     <div className="flex-row content-start text-black space-x-4 mb-10">
