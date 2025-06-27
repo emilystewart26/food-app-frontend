@@ -101,31 +101,9 @@ export class ApiClient {
   }
 
   // POST
-  async addReview(
-    foodReview,
-    foodStars,
-    ambienceReview,
-    ambienceStars,
-    serviceReview,
-    serviceStars,
-    locationReview,
-    locationStars,
-    userId,
-    restaurantId
-  ) {
-    const response = await this.apiCall("post", "reviews", {
-      foodReview,
-      foodStars,
-      ambienceReview,
-      ambienceStars,
-      serviceReview,
-      serviceStars,
-      locationReview,
-      locationStars,
-      userId,
-      restaurantId,
-    });
-    return response
+  async addReview(reviewData) {
+    const response = await this.apiCall("post", "reviews", reviewData);
+    return response;
   }
 
   //==Favourites Methods==
