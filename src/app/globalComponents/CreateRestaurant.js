@@ -255,7 +255,7 @@ export default function CreateRestaurant() {
             <input 
             type="text"
             name="googleMapsUrl"
-            placeholder="https://maps.app.goo.gl/..."
+            placeholder="https://www.google.com/maps/embed..."
             required={false}
             value={formData.googleMapsUrl}
             onChange={handleChange}
