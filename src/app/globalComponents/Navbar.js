@@ -9,6 +9,12 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
+import { Peralta } from "next/font/google";
+
+const peraltaFont = Peralta({
+  subsets: ["latin"],
+  weight: "400"
+});
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +25,18 @@ const Navbar = () => {
   const role = user?.publicMetadata?.role || "user";
 
   const canView = {
-    dashboard: role === "user" || role === "admin",
-    create: role === "vendor" || role === "admin",
-    browse: true,
+    dashboard: isSignedIn && (role === "user" || role === "admin"),
+    create: isSignedIn && (role === "vendor" || role === "admin"),
+    browse: true, // always show browse
   };
 
   const renderLinks = () => (
     <>
+      {canView.browse && (
+        <li>
+          <a href="/browse" className="text-md hover:text-lg duration-300">Browse</a>
+        </li>
+      )}
       {canView.dashboard && (
         <li>
           <a href="/dashboard" className="text-md hover:text-lg duration-300">Dashboard</a>
@@ -36,20 +47,18 @@ const Navbar = () => {
           <a href="/create" className="text-md hover:text-lg duration-300">Create</a>
         </li>
       )}
-      {canView.browse && (
-        <li>
-          <a href="/browse" className="text-md hover:text-lg duration-300">Browse</a>
-        </li>
-      )}
     </>
   );
 
   return (
     <nav className="block w-full px-4 py-2 bg-slate-500 shadow-xl rounded-lg lg:px-8 lg:py-3 backdrop-blur-sm bg-opacity-90">
-      <div className="flex items-center justify-between text-white">
-        <a href="/" className="block cursor-pointer py-1.5 text-2xl font-semibold">
-          Food App
+      <div className="flex items-center text-white justify-between">
+        <div className="flex justify-start space-x-6 items-center">
+        <img src="https://res.cloudinary.com/dx9lz1em1/image/upload/v1750951807/jig47m5szivnyyhod7w1.png" alt="IndieEatsLocal logo" />
+        <a href="/" className={`block cursor-pointer py-1.5 text-2xl ${peraltaFont.className}`}>
+           IndieEatsLocal
         </a>
+        </div>
 
         {/* Mobile Menu Toggle */}
         <button
@@ -64,7 +73,7 @@ const Navbar = () => {
         <div className="hidden lg:block">
           <ul className="flex flex-row items-center gap-6">
             {renderLinks()}
-            <SignedOut>
+            {!isSignedIn && (
               <li>
                 <a
                   href="/login"
@@ -73,17 +82,19 @@ const Navbar = () => {
                   Login
                 </a>
               </li>
-            </SignedOut>
-            <SignedIn>
-              <li>
-                <SignOutButton>
-                  <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center font-semibold text-white hover:cursor-pointer">
-                    Sign Out
-                  </button>
-                </SignOutButton>
-              </li>
-              <li><UserButton afterSignOutUrl="/" /></li>
-            </SignedIn>
+            )}
+            {isSignedIn && (
+              <>
+                <li>
+                  <SignOutButton>
+                    <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center font-semibold text-white hover:cursor-pointer">
+                      Sign Out
+                    </button>
+                  </SignOutButton>
+                </li>
+                <li><UserButton afterSignOutUrl="/" /></li>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -93,7 +104,7 @@ const Navbar = () => {
         <div className="lg:hidden mt-4">
           <ul className="flex flex-col gap-4 text-white">
             {renderLinks()}
-            <SignedOut>
+            {!isSignedIn && (
               <li>
                 <a
                   href="/login"
@@ -102,17 +113,19 @@ const Navbar = () => {
                   Login
                 </a>
               </li>
-            </SignedOut>
-            <SignedIn>
-              <li>
-                <SignOutButton>
-                  <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center justify-center font-semibold text-white hover:cursor-pointer">
-                    Sign Out
-                  </button>
-                </SignOutButton>
-              </li>
-              <li><UserButton afterSignOutUrl="/" /></li>
-            </SignedIn>
+            )}
+            {isSignedIn && (
+              <>
+                <li>
+                  <SignOutButton>
+                    <button className="rounded-full transition bg-gradient-to-b from-amber-500 to-amber-600 px-6 h-8 flex items-center justify-center font-semibold text-white hover:cursor-pointer">
+                      Sign Out
+                    </button>
+                  </SignOutButton>
+                </li>
+                <li><UserButton afterSignOutUrl="/" /></li>
+              </>
+            )}
           </ul>
         </div>
       )}

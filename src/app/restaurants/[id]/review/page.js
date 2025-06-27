@@ -1,15 +1,16 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useAuth } from "@clerk/nextjs";
 import { ApiClient } from "../../../../../apiClient/apiClient";
-const apiClient = new ApiClient();
 
 const ReactStars = dynamic(() => import("react-stars"), { ssr: false });
 
+
 export default function ReviewPage() {
   const { id } = useParams(); // Restaurant ID from the route
+  const { getToken } = useAuth(); 
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -20,9 +21,13 @@ export default function ReviewPage() {
     serviceReview: "",
     serviceStars: 0,
     locationReview: "",
-    locationStars: 0,
-    restaurantId: "", 
+    locationStars: 0,  
   });
+
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
 
   useEffect(() => {
     if (id) {
@@ -30,18 +35,38 @@ export default function ReviewPage() {
     }
   }, [id]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-    try {
-    
-      await apiClient.addReview({ ...formData, restaurantId: id });
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setSubmitting(true);
+  setError("");
+  setSuccess("");
 
-      alert("Review submitted!");
-      router.push(`/restaurants/${id}`);
+  try {
+    const token = await getToken();
+    const apiClient = new ApiClient(token);
+
+    await apiClient.addReview({
+      ...formData,
+      restaurantId: id,
+    });
+
+      setSuccess("Review submitted!");
+      setTimeout(() => {
+        router.push(`/eatery/${id}`);
+      }, 3000);
     } catch (err) {
       console.error("Review submission failed:", err);
-      alert("Failed to submit review.");
+      setError("Failed to submit review. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -160,10 +185,20 @@ export default function ReviewPage() {
 
         <button
           type="submit"
+          disabled={submitting}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
         >
           Submit Review
         </button>
+
+         {/* Feedback Messages */}
+         {success && 
+         <p className="text-green-600">{success}</p>
+         }
+         { error && 
+         <p className="text-red-600">{error}</p>
+         }
+
       </form>
     </div>
   );

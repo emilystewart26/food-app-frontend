@@ -1,8 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import CloudinaryUploader from "../globalComponents/CloudinaryUploader";
+import { useAuth } from "@clerk/nextjs";
+import { ApiClient } from '../../../apiClient/apiClient';
+import { useRouter } from "next/navigation";
+import { Cloudinary } from "@cloudinary/url-gen";
+
 
 export default function CreateRestaurant() {
+
     const [formData, setFormData] = useState({
         name: '',
         address: '',
@@ -14,12 +20,11 @@ export default function CreateRestaurant() {
         category: '',
         alcohol: '',
         checkboxes: {
-  meals: [],
-  dietary: [],
-  welcomes: [],
-  facilities: [],
-},
-
+          meals: [],
+          dietary: [],
+          welcomes: [],
+          facilities: [],
+        },
         tags: '',
         description: '',
         imageUrl: '',
@@ -28,8 +33,13 @@ export default function CreateRestaurant() {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formDisabled, setFormDisabled] = useState(false);
     const [textarea, setTextarea] = useState(" ");
+    const { getToken } = useAuth();
+    const router = useRouter();
+    //const cld = new Cloudinary({ cloud: { cloudName: process.env.dx9lz1em1 } }); ---> TODO !!!
+
 
     const handleChange = (e) => {
         setFormData({
@@ -38,7 +48,6 @@ export default function CreateRestaurant() {
         });
     };
 
-    
     const handleCheckboxChange = (category, value) => {
   setFormData((prevFormData) => {
     const currentValues = prevFormData.checkboxes[category];
@@ -57,53 +66,49 @@ export default function CreateRestaurant() {
 };
 
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-console.log (formData)
-        if (formData.name === '') {
-            setErrorMessage('Please enter a name before submitting.');
-            setSuccessMessage('');
-            return;
-        }
 
-        if (formData.address === '') {
-            setErrorMessage('Please enter an address before submitting.');
-            setSuccessMessage('');
-            return;
+        if (!formData.name || !formData.address || !formData.city || !formData.country || !formData.category) {
+          setErrorMessage("Please fill out all required fields.");
+          setSuccessMessage("");
+          return;
         }
-
-        if (formData.city === '') {
-            setErrorMessage('Please enter a city before submitting.');
-            setSuccessMessage('');
-            return;
-        }
-
-        if (formData.country === '') {
-            setErrorMessage('Please enter a country before submitting.');
-            setSuccessMessage('');
-            return;
-        }
-
-        if (formData.category === '') {
-            setErrorMessage('Please select a category before submitting.');
-            setSuccessMessage('');
-            return;
-        }
-
-        if (formData.meals === '') {
-            setErrorMessage('Please select meals before submitting.');
-            setSuccessMessage('');
-            return;
-        }
-
         console.log(formData);
-        setErrorMessage('');
-        setSuccessMessage('Establishment page submitted!')
+        setIsSubmitting(true);
+        try {
+          const token = await getToken(); // get Clerk JWT
+          const apiClient = new ApiClient(token);
+      
+          const newRestaurant = await apiClient.addRestaurant({
+            ...formData,
+            category: [formData.category], // backend expects array
+            meals: formData.checkboxes.meals,
+            dietary: formData.checkboxes.dietary,
+            welcomes: formData.checkboxes.welcomes,
+            facilities: formData.checkboxes.facilities,
+            alcohol: formData.alcohol === "yes", // convert to boolean
+            tags: formData.tags?.split(",").map(tag => tag.trim()), // optional formatting
+          });
+      
+          console.log("Successfully added restaurant:", newRestaurant);
+          setSuccessMessage("Establishment submitted! Redirecting...");
+          setErrorMessage("");
+          setFormDisabled(true);
 
-        // send the form data to an endpoint. 
-        // you can use the apiClient file like with the other endpoints 
-    };
+          setTimeout(() => {
+            router.push(`/eatery/${newRestaurant._id}`);
+          }, 3000);
+          
+        } catch (error) {
+          console.error("Submission error:", error);
+          setErrorMessage("Failed to submit establishment.");
+          setSuccessMessage("");
+        }
+      };
+
+
+          
 
     return  (
         <div className="max-w-4xl mx-auto mt-24 bg-white p-6 rounded-lg shadow-lg text-slate-700">
@@ -133,7 +138,7 @@ console.log (formData)
             type="text"
             name="address"
             required
-            value={formData.username}
+            value={formData.address}
             onChange={handleChange}
             className="py-2 px-4 w-xl border rounded"
             />
@@ -182,10 +187,10 @@ console.log (formData)
         <div>
             <label className="block mb-1 text-lg">Telephone no.</label>
             <input 
-            type="number"
+            type="string"
             name="telephone"
-            required
-            value={formData.number}
+            required={false}
+            value={formData.telephone}
             onChange={handleChange}
             className="py-2 px-4 w-xl border rounded"
             />
@@ -197,7 +202,7 @@ console.log (formData)
             <input 
             type="text"
             name="website"
-            required
+            required={false}
             value={formData.website}
             onChange={handleChange}
             className="py-2 px-4 w-xl border rounded"
@@ -212,7 +217,7 @@ console.log (formData)
             type="text"
             name="tags"
             placeholder="Eg. italian, coffee, cosy"
-            required
+            required={false}
             value={formData.tags}
             onChange={handleChange}
             className="py-2 px-4 w-xl border rounded"
@@ -227,7 +232,7 @@ console.log (formData)
             type="text"
             name="description"
             placeholder="Describe your establishment..."
-            required
+            required={false}
             value={formData.description}
             onChange={handleChange}
             className="px-4 py-2 w-xl border rounded"
@@ -251,7 +256,7 @@ console.log (formData)
             type="text"
             name="googleMapsUrl"
             placeholder="https://maps.app.goo.gl/..."
-            required
+            required={false}
             value={formData.googleMapsUrl}
             onChange={handleChange}
             className="py-2 px-4 w-xl border rounded"
@@ -284,14 +289,14 @@ console.log (formData)
     Please select which meals your establishment serves:
     <span className="text-red-500">*</span>
   </label>
-  {["Breakfast", "Brunch", "Lunch", "Dinner"].map((val) => (
+  {["breakfast", "brunch", "lunch", "dinner"].map((val) => (
     <label key={val} className="block text-medium">
       <input
         type="checkbox"
         onChange={() => handleCheckboxChange("meals", val)}
         checked={formData.checkboxes.meals.includes(val)}
       />{" "}
-      {val}
+      {val.charAt(0).toUpperCase() + val.slice(1)}
     </label>
   ))}
 </div>
@@ -300,14 +305,14 @@ console.log (formData)
 
 <div className="w-xl">
   <label className="block mb-1 text-lg">Does your establishment cater to any dietary restrictions?</label>
-  {["Vegetarian", "Vegan", "Gluten free", "Dairy free", "Halal", "Kosher"].map((val) => (
+  {["vegetarian", "vegan", "glutenfree", "dairyfree", "halal", "kosher"].map((val) => (
     <label key={val} className="block text-medium">
       <input
         type="checkbox"
         onChange={() => handleCheckboxChange("dietary", val)}
         checked={formData.checkboxes.dietary.includes(val)}
       />{" "}
-      {val}
+      {val.charAt(0).toUpperCase() + val.slice(1)}
     </label>
   ))}
 </div>
@@ -330,14 +335,14 @@ console.log (formData)
 
 <div className="w-xl">
   <label className="block mb-1 text-lg">Does your establishment welcome dogs and children?</label>
-  {["Dogs", "Children"].map((val) => (
+  {["dogs", "children"].map((val) => (
     <label key={val} className="block text-medium">
       <input
         type="checkbox"
         onChange={() => handleCheckboxChange("welcomes", val)}
         checked={formData.checkboxes.welcomes.includes(val)}
       />{" "}
-      {val}
+      {val.charAt(0).toUpperCase() + val.slice(1)}
     </label>
   ))}
 </div>
@@ -347,14 +352,14 @@ console.log (formData)
         {/* CHECKBOX */}
         <div className="w-xl">
   <label className="block mb-1 text-lg">Does your establishment have the following facilities available?</label>
-  {["Toilets", "Free Wi-Fi"].map((val) => (
+  {["toilets", "garden", "wifi"].map((val) => (
     <label key={val} className="block text-medium">
       <input
         type="checkbox"
         onChange={() => handleCheckboxChange("facilities", val)}
         checked={formData.checkboxes.facilities.includes(val)}
       />{" "}
-      {val}
+      {val.charAt(0).toUpperCase() + val.slice(1)}
     </label>
   ))}
 </div>
@@ -370,6 +375,13 @@ console.log (formData)
            >
             Submit
            </button>
+
+           {successMessage && (
+    <p className="text-green-600 mt-4">{successMessage}</p>
+  )}
+  {errorMessage && (
+    <p className="text-red-600 mt-4">{errorMessage}</p>
+  )}
       </div>
       </form>
 

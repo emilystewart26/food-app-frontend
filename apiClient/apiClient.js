@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 const url = process.env.NEXT_PUBLIC_API_BASE_URL || "https://food-app-backend-xhqh.onrender.com/api";
 
@@ -40,12 +39,13 @@ export class ApiClient {
 
 
   //Restaurant Methods
+
   //GET - universtal getRestaurants method by city / with geolocation + with optional additional filters (=queryString)
   async getRestaurants(queryString) {
   const path = queryString ? `restaurants?${queryString}` : "restaurants";
   const response = await this.apiCall("get", path);
-  console.log("[getRestaurants] Query:", queryString);
-  console.log("[getRestaurants] Response:", response);
+  //console.log("[getRestaurants] Query:", queryString);
+  //console.log("[getRestaurants] Response:", response);
   return response;
 }
 
@@ -60,35 +60,19 @@ export class ApiClient {
   }
 
   //POST
-  async addRestaurant(
-    name,
-    address,
-    city,
-    country /* review Restaurant Schema & check what needs to be listed here*/
-  ) {
-    return this.apiCall("post", "restaurants", {
-      name,
-      address,
-      city,
-      country,
-      // review Restaurant Schema & check if anything else needs to be listed here
-    });
+  async addRestaurant(restaurantData) {    // changed this to accept a full data object
+    return this.apiCall("post", "restaurants", restaurantData)
   }
 
-  //PUT
-  async updateRestaurant(id, address, postcode, city, country /*as above*/) {
-    return this.apiCall("put", `restaurants/${id}`, {
-      address,
-      postcode,
-      city,
-      country,
-    });
-  }
+  //PUT  - not part of MVP > likely needs refactoring if it is to be used lated 
+  //async updateRestaurant(id, address, postcode, city, country /*as above*/) {
+  //  return this.apiCall("put", `restaurants/${id}`, {address, postcode, city, country});
+ // }
 
-  //DELETE
-  async deleteRestaurant(id) {
-    return this.apiCall("delete", `restaurants/${id}`);
-  }
+  //DELETE  - not part of MVP > likely needs refactoring if it is to be used lated 
+  //async deleteRestaurant(id) {
+   // return this.apiCall("delete", `restaurants/${id}`);
+  //}
 
   //== Review Methods==
 
@@ -117,31 +101,9 @@ export class ApiClient {
   }
 
   // POST
-  async addReview(
-    foodReview,
-    foodStars,
-    ambienceReview,
-    ambienceStars,
-    serviceReview,
-    serviceStars,
-    locationReview,
-    locationStars,
-    userId,
-    restaurantId
-  ) {
-    const response = await this.apiCall("post", "reviews", {
-      foodReview,
-      foodStars,
-      ambienceReview,
-      ambienceStars,
-      serviceReview,
-      serviceStars,
-      locationReview,
-      locationStars,
-      userId,
-      restaurantId,
-    });
-    return response
+  async addReview(reviewData) {
+    const response = await this.apiCall("post", "reviews", reviewData);
+    return response;
   }
 
   //==Favourites Methods==

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
+import { ApiClient } from "../../../apiClient/apiClient";
 
 export default function UserReviews() {
   const [reviews, setReviews] = useState([]);
@@ -14,33 +14,36 @@ export default function UserReviews() {
     const fetchUserAndReviews = async () => {
       try {
         const token = await getToken();
-        if (!token) return setError("User not authenticated.");
+        if (!token) {
+          setError("Not authenticated");
+          return;
+        }
 
-        //  Sync with backend to get MongoDB user ID
-        const syncRes = await axios.post(
-          "https://food-app-backend-xhqh.onrender.com/api/users/clerk/sync",
-          {},
+        //  Send token + headers 
+        const syncRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/clerk/sync`,
           {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
+            body: JSON.stringify({}), 
           }
         );
 
-        const dbUserId = syncRes.data._id;
-        setUserId(dbUserId);
+        if (!syncRes.ok) {
+          throw new Error("Failed to sync user");
+        }
 
-        //  fetch reviews by userId
-        const reviewsRes = await axios.get(
-          `https://food-app-backend-xhqh.onrender.com/api/reviews/userid/${dbUserId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const dbUser = await syncRes.json();
 
-        setReviews(reviewsRes.data);
+        const apiClient = new ApiClient(token);
+        const reviews = await apiClient.getReviewsByUserId(dbUser._id);
+
+
+        setUserId(dbUser._id);
+        setReviews(reviews);
       } catch (err) {
         console.error("Failed to fetch user reviews:", err);
         setError("Error fetching reviews.");
