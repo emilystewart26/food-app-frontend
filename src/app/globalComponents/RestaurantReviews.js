@@ -6,7 +6,7 @@ export default function RestaurantReviews({ restaurantId }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/reviews/restaurantid/${restaurantId}`)
+      .get(`https://food-app-backend-xhqh.onrender.com/api/reviews/restaurantid/${restaurantId}`)
       .then((res) => setReviews(res.data))
       .catch((err) => console.error("Failed to load reviews", err));
   }, [restaurantId]);

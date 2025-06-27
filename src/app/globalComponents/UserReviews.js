@@ -41,6 +41,7 @@ export default function UserReviews() {
         const apiClient = new ApiClient(token);
         const reviews = await apiClient.getReviewsByUserId(dbUser._id);
 
+
         setUserId(dbUser._id);
         setReviews(reviews);
       } catch (err) {
