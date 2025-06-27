@@ -16,7 +16,7 @@ export default function RestaurantCard({ restaurant }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div className="w-full max-w-md rounded-full shadow-md p-4 bg-white">
+      <div className="w-full max-w-md rounded shadow-md p-4 bg-white">
         {/* Name of Restaurant*/}
         <h2 className="text-xl font-semibold text-slate-700 mb-2 text-center">
           {restaurant.name}
