@@ -4,6 +4,12 @@ import { useRouter } from 'next/navigation';
 import { useUser, useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { useApiClient } from '../hooks/useApiClient';
+import { Peralta } from "next/font/google";
+
+const peraltaFont = Peralta({
+  subsets: ["latin"],
+  weight: "400"
+});
 
 
 export default function Home() {
@@ -66,9 +72,9 @@ export default function Home() {
       </div>
 
       <div className="relative lg:py-20 xl:py-20">
-        <h1 className="font-bold text-4xl text-slate-600 md:text-5xl text-center pb-10">
-          Hungry?
-        </h1>
+        <h1 className={`${peraltaFont.className} font-bold text-4xl text-slate-600 md:text-5xl text-center pb-10`}>
+  Hungry?
+</h1>
         <h3 className="font-bold text-2xl text-slate-600 text-center">
           Find local, independent establishments on your doorstep.
         </h3>
@@ -79,7 +85,7 @@ export default function Home() {
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              placeholder="Where are you?"
+              placeholder="Enter your location..."
               className="w-full p-4 rounded-full pr-32"
             />
             <button

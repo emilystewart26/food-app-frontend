@@ -16,9 +16,9 @@ export default function RestaurantCard({ restaurant }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <div className="w-full max-w-md rounded-2xl shadow-md p-4 border bg-white">
+      <div className="w-full max-w-md rounded-full shadow-md p-4 bg-white">
         {/* Name of Restaurant*/}
-        <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+        <h2 className="text-xl font-semibold text-slate-700 mb-2 text-center">
           {restaurant.name}
         </h2>
 
@@ -30,9 +30,9 @@ export default function RestaurantCard({ restaurant }) {
           className="w-full h-48 object-cover rounded-xl mb-3"
         />
         {/* Address */}
-        <p className="text-sm text-gray-800 font-semibold">Address: <span className="text-gray-600 font-normal">{restaurant.address}, {restaurant.city} {restaurant.postcode}</span></p>
+        <p className="text-slate-700 font-normal text-sm">{restaurant.address}, {restaurant.city} {restaurant.postcode}</p>
         {distanceAvailable && (
-          <p className="text-sm text-gray-800 font-semibold"> {distanceKmRounded} km away </p>
+          <p className="text-sm text-slate-700 font-semibold"> 📍  {distanceKmRounded} km away </p>
         )}
       </div>
     </a>
