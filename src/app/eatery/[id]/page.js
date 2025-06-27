@@ -39,21 +39,21 @@ export default function EateryPage() {
   if (!restaurant) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen mt-10 mb-10 text-slate-700">
       <main className="flex-grow flex justify-center items-center px-4">
-        <div className="p-6 max-w-4xl w-full bg-white rounded shadow">
-          <RestaurantDetails restaurant={restaurant} />
-          <div className="flex gap-4 my-4">
+        <div className="p-6 max-w-4xl w-full bg-white rounded-xl shadow">
+          <div className="flex gap-4">
             <AddToFavourites restaurantId={id} />
           </div>
-          <RestaurantMap mapUrl={restaurant.googleMapsUrl} />
+          <RestaurantDetails restaurant={restaurant} />
           <RestaurantDescription description={restaurant.description} />
+          <RestaurantMap mapUrl={restaurant.googleMapsUrl} />
           <RestaurantReviews restaurantId={id} />
 
           {/* Leave Review Button */}
           <div className="mt-6">
             <Link href={`/restaurants/${id}/review`}>
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+              <button className="hover:cursor-pointer rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-8 h-12 items-center justify-center overflow-hidden font-semibold text-white mx-auto">
                 Leave a Review
               </button>
             </Link>

@@ -71,11 +71,11 @@ const handleSubmit = async (e) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4">
-      <h1 className="text-2xl font-bold mb-6">Leave a Review</h1>
+    <div className="max-w-2xl mx-auto px-4 space-y-6 bg-white p-6 shadow-md rounded-xl mt-10 mb-10 text-slate-700">
+      <h1 className="text-2xl font-bold text-center">Leave a Review</h1>
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 bg-white p-6 shadow-md rounded-xl"
+        className="space-y-6 p-6 rounded-xl"
       >
         {/* Food Section */}
         <div>
@@ -183,13 +183,15 @@ const handleSubmit = async (e) => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
-        >
-          Submit Review
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            disabled={submitting}
+            className="hover:cursor-pointer rounded-full text-center transition bg-gradient-to-b from-amber-500 to-amber-600 active:from-yellow-400 px-8 h-12 items-center overflow-hidden font-semibold text-white"
+          >
+            Submit Review
+          </button>
+        </div>
 
          {/* Feedback Messages */}
          {success && 

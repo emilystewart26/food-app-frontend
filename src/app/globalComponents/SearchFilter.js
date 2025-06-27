@@ -34,10 +34,10 @@ export default function SearchFilter({ onFilterChange }) {
   };
 
   return (
-    <div className="p-4 w-64 space-y-4 bg-white/50 border rounded-lg">
+    <div className="p-4 w-64 space-y-4 bg-white/50 rounded-lg mb-auto mt-5 text-slate-700">
       <div>
       <div>
-        <p className="mt-5 mb-1">Search by City</p>
+        <p className="mb-1 font-semibold">Search by City</p>
         <input
           type="text"
           name="city"
@@ -45,7 +45,7 @@ export default function SearchFilter({ onFilterChange }) {
           onChange={handleInputChange}
           disabled={filters.useCurrentLocation}
           className="w-full border px-2 py-1 rounded bg-white/60"
-          placeholder="City..."
+          placeholder="Enter location..."
         />
         <label className="block mt-1 text-sm">
           <input
@@ -71,7 +71,7 @@ export default function SearchFilter({ onFilterChange }) {
           <option className="text-sm" value="5000">5 km</option>
         </select>
       </div>
-        <p className="mt-4 mb-1">Type</p>
+        <p className="mt-4 mb-1 font-semibold">Type</p>
         {["cafe", "bar", "restaurant","gastropub","takeaway"].map((val) => (
           <label key={val} className="block text-sm">
             <input
@@ -85,7 +85,7 @@ export default function SearchFilter({ onFilterChange }) {
       </div>
 
       <div>
-        <p className="mb-1">Meals</p>
+        <p className="mb-1 font-semibold">Meals</p>
         {["breakfast", "brunch", "lunch", "dinner"].map((val) => (
           <label key={val} className="block text-sm">
             <input
@@ -99,7 +99,7 @@ export default function SearchFilter({ onFilterChange }) {
       </div>
 
       <div>
-        <p className="mb-1">Dietary Requirements</p>
+        <p className="mb-1 font-semibold">Dietary Requirements</p>
         {["vegetarian", "vegan", "glutenfree", "dairyfree", "halal", "kosher"].map((val) => (
           <label key={val} className="block text-sm">
             <input

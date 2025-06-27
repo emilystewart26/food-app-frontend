@@ -19,7 +19,6 @@ export default function UserReviews() {
           return;
         }
 
-        //  Send token + headers 
         const syncRes = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/clerk/sync`,
           {
@@ -28,7 +27,7 @@ export default function UserReviews() {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({}), 
+            body: JSON.stringify({}),
           }
         );
 
@@ -39,11 +38,10 @@ export default function UserReviews() {
         const dbUser = await syncRes.json();
 
         const apiClient = new ApiClient(token);
-        const reviews = await apiClient.getReviewsByUserId(dbUser._id);
-
+        const userReviews = await apiClient.getReviewsByUserId(dbUser._id);
 
         setUserId(dbUser._id);
-        setReviews(reviews);
+        setReviews(userReviews);
       } catch (err) {
         console.error("Failed to fetch user reviews:", err);
         setError("Error fetching reviews.");
